@@ -9,5 +9,26 @@
     <script defer src="js/main.js"></script>
     <title>RPG Inventory | Simple Character Inventory Design</title>
   </head>
-  <body></body>
+  <body>
+    <nav>
+      <p class="welcome-msg">RPG Inventory <span class="game-icon">⚔️</span></p>
+
+      <form action="login">
+        <input
+          type="text"
+          class="login-input login-user-character"
+          placeholder="character"
+        />
+        <input
+          type="text"
+          class="login-input login-user-password"
+          placeholder="password"
+          maxlength="3"
+        />
+        <button class="login-btn">&rightarrowtail;</button>
+      </form>
+    </nav>
+
+    <main class="game-display"></main>
+  </body>
 </html>

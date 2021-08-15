@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Amarante&display=swap');
+html {
+  font-size: 16px;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Amarante', sans-serif;
+  color: #9aaab4;
+  background-color: #38383d;
+}
+/* Nav bar*/
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+.welcome-msg,
+.game-icon {
+  font-size: 2.5rem;
+}
+/*form inputs*/
+.login-input {
+  border: none;
+  font-family: inherit;
+  background-color: #9aaab4;
+  color: #38383d;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 0.3rem 1rem;
+  border-radius: 0.8rem;
+}
+.login-input:focus {
+  outline: none;
+}
+.login-input::placeholder {
+  color: #66666e;
+}
+.login-btn {
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 2.2rem;
+  cursor: pointer;
+  position: relative;
+  top: 5px;
+}
+/*main*/
+main {
+  background-color: rgb(179, 176, 176);
+  width: 96%;
+  height: 600px;
+  margin: 0 auto;
+  opacity: 0;
+}
