@@ -1,3 +1,9 @@
+'use strict';
+//create characters
+const warrior = characterFactory('Stomp', 111, 'warrior');
+const wizard = characterFactory('Cast', 222, 'wizard');
+const ranger = characterFactory('Draw', 333, 'ranger');
+
 const loginCharName = document.querySelector('.login-user-character');
 const loginCharPass = document.querySelector('.login-user-password');
 const loginBtn = document.querySelector('.login-btn');

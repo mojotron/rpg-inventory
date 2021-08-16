@@ -1,12 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Amarante&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Amarante&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
+:root {
+  --dark-main-color: #38383d;
+  --light-main-color: #9aaab4;
+}
 html {
   font-size: 16px;
   box-sizing: border-box;
 }
 body {
-  font-family: 'Amarante', sans-serif;
-  color: #9aaab4;
-  background-color: #38383d;
+  font-family: 'Germania One', sans-serif;
+  color: var(--light-main-color);
+  background-color: var(--dark-main-color);
 }
 /* Nav bar*/
 nav {
@@ -22,8 +27,8 @@ nav {
 .login-input {
   border: none;
   font-family: inherit;
-  background-color: #9aaab4;
-  color: #38383d;
+  background-color: var(--light-main-color);
+  color: var(--dark-main-color);
   font-size: 1.2rem;
   text-align: center;
   padding: 0.3rem 1rem;
@@ -45,10 +50,115 @@ nav {
   top: 5px;
 }
 /*main*/
-main {
-  background-color: rgb(179, 176, 176);
+.game-display {
+  background-color: var(--light-main-color);
+  color: var(--dark-main-color);
   width: 96%;
-  height: 600px;
+  height: 100vh;
   margin: 0 auto;
-  opacity: 0;
+  /* opacity: 0; */
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 0.25fr repeat(4, 1fr) 0.25fr;
+  grid-gap: 3px;
+}
+/*TODO*/
+/*row-start/column-start/row-end/column-end:*/
+/*Game column */
+.game-options-selector {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: lawngreen;
+}
+.game-actions-display {
+  grid-area: 2 / 1 / 6 / 2;
+  background-color: rgb(149, 252, 47);
+}
+.game-info-display {
+  grid-area: 6 / 1 / 7 / 2;
+  background-color: rgb(183, 248, 118);
+}
+/*Character column */
+.character-stats {
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  font-size: 1.5rem;
+  padding: 0.3rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.character-hp-armor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.character-hp-armor p {
+  margin-right: 1rem;
+}
+.character-gear {
+  grid-area: 2 / 2 / 4 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.character-gear-slots,
+.character-inventory-slots {
+  width: 50%;
+  height: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 5px;
+}
+
+.gear-head {
+  grid-area: 1 / 2 / 2 / 3;
+}
+.gear-body {
+  grid-area: 2 / 2 / 3 / 3;
+}
+.gear-legs {
+  grid-area: 3 / 2 / 4 / 3;
+}
+.gear-left-arm {
+  grid-area: 2 / 1 / 3 / 2;
+}
+.gear-right-arm {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.character-inventory {
+  grid-area: 4 / 2 / 6 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.character-gear p,
+.character-inventory p {
+  text-align: center;
+  font-size: 1.2rem;
+}
+.gear-head,
+.gear-body,
+.gear-legs,
+.gear-left-arm,
+.gear-right-arm,
+.inventory-slot {
+  border: 2px solid var(--dark-main-color);
+  background-color: rgb(190, 186, 157);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+.character-currency {
+  grid-area: 6 / 2 / 7 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  padding: 0.3rem;
+}
+.character-currency p {
+  margin-right: 2rem;
 }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <script defer src="js/character_factory.js"></script>
     <script defer src="js/main.js"></script>
     <title>RPG Inventory | Simple Character Inventory Design</title>
   </head>
@@ -29,6 +30,57 @@
       </form>
     </nav>
 
-    <main class="game-display"></main>
+    <main class="game-display">
+      <!--Game column-->
+      <div class="game-options-selector">
+        <button>Actions</button>
+        <button>Weapons</button>
+        <button>Armors</button>
+        <button>Alchemist</button>
+        <button>Monster hunt</button>
+      </div>
+      <div class="game-actions-display"></div>
+      <div class="game-info-display"></div>
+      <!--Character column-->
+      <div class="character-stats">
+        <p class="character-name">Chad</p>
+        <div class="character-hp-armor">
+          <p>💛<span>5</span></p>
+          <p>🪓<span>3</span></p>
+          <p>🛡️<span>5</span></p>
+        </div>
+      </div>
+
+      <div class="character-gear">
+        <p>Gear</p>
+        <div class="character-gear-slots">
+          <div class="gear-slot gear-head" data-gear="0">⛑️</div>
+          <div class="gear-slot gear-body" data-gear="1">👕</div>
+          <div class="gear-slot gear-legs" data-gear="2">👢👢</div>
+          <div class="gear-slot gear-left-arm" data-gear="3">🏹</div>
+          <div class="gear-slot gear-right-arm" data-gear="4">🏹</div>
+        </div>
+      </div>
+
+      <div class="character-inventory">
+        <p>Inventory</p>
+        <div class="character-inventory-slots">
+          <div class="inventory-slot" data-slot="0">🔪</div>
+          <div class="inventory-slot" data-slot="1">🥛</div>
+          <div class="inventory-slot" data-slot="2"></div>
+          <div class="inventory-slot" data-slot="3"></div>
+          <div class="inventory-slot" data-slot="4"></div>
+          <div class="inventory-slot" data-slot="5"></div>
+          <div class="inventory-slot" data-slot="6"></div>
+          <div class="inventory-slot" data-slot="7"></div>
+          <div class="inventory-slot" data-slot="8"></div>
+        </div>
+      </div>
+      <div class="character-currency">
+        <p>🟡<span>6</span></p>
+        <p>⚪<span>35</span></p>
+        <p>🟤<span>20</span></p>
+      </div>
+    </main>
   </body>
 </html>
