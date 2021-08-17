@@ -56,7 +56,7 @@ nav {
   width: 96%;
   height: 100vh;
   margin: 0 auto;
-  /* opacity: 0; */
+  opacity: 0;
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: 0.25fr repeat(4, 1fr) 0.25fr;
@@ -145,7 +145,7 @@ nav {
 .gear-right-arm,
 .inventory-slot {
   border: 2px solid var(--dark-main-color);
-  background-color: rgb(190, 186, 157);
+  background: linear-gradient(110deg, rgb(250, 248, 235), rgb(252, 219, 113));
   display: flex;
   justify-content: center;
   align-items: center;
