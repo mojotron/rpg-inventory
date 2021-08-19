@@ -7,13 +7,14 @@ const inventoryFactory = function () {
   const getInventory = () => [..._inventory]; //preventing mutating
   const addItem = function (item) {
     if (_isFull()) return;
-    _inventory[_emptySlot] = item;
+    _inventory[_emptySlot()] = item;
   };
   const removeItem = function (index) {
     const item = _inventory[index];
     _inventory[index] = null;
     return item;
   };
+
   return { getInventory, addItem, removeItem };
 };
 //Character gear management
@@ -36,11 +37,8 @@ const equipmentFactory = function () {
     _gearSlots[slot] = item;
     return oldItem;
   };
-  const equipment = function () {
-    const { head, body, legs, leftArm, rightArm } = _gearSlots;
-    return [head, body, legs, leftArm, rightArm];
-  };
-  return { addGear, removeGear, equipment };
+  const curGear = () => _gearSlots;
+  return { addGear, removeGear, curGear };
 };
 //Character coins management
 const coinsFactory = function () {
@@ -57,6 +55,7 @@ const coinsFactory = function () {
   };
   return { gainCoins, loseCoins, currentCoins };
 };
+//Character actions
 const characterFactory = function (userName, userPassword) {
   let hitPoints = 10;
   let maxHitPoints = 10;
@@ -69,6 +68,7 @@ const characterFactory = function (userName, userPassword) {
   const getArmor = () => armor;
   //Character gear ✔️
   //Character inventory ✔️
+  const inventory = inventoryFactory();
   //Character coins
   //Character actions
   return {
@@ -77,27 +77,9 @@ const characterFactory = function (userName, userPassword) {
     getHitPoints,
     getAttack,
     getArmor,
+    inventory,
   };
 };
-
-//base
-//🧦
-//
-// const dagger 🔪
-// const axe 🪓
-// const sword 🗡️
-// const bow 🏹
-// shield 🛡️
-// mace 🏏
-
-// legs lv 1 👟
-// legs lv 2 👞
-// legs lv 3 🥾
-
-// body lv 1 🎽
-// body lv 2 👕
-// body lv 3 🧥
-
-// head lv 1 🧣
-// head lv 2 🧢
-// head lv 3 👑
+//creat some characters
+const stomp = characterFactory('Stomp', 111);
+stomp.inventory.addItem(dagger);

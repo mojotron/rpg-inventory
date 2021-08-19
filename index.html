@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <script defer src="js/item_factory.js"></script>
     <script defer src="js/character_factory.js"></script>
     <script defer src="js/main.js"></script>
     <title>RPG Inventory | Simple Character Inventory Design</title>
@@ -34,12 +35,17 @@
       <!--Game column-->
       <div class="game-options-selector">
         <button>Actions</button>
-        <button>Weapons</button>
-        <button>Armors</button>
-        <button>Alchemist</button>
+        <button>Shop</button>
         <button>Monster hunt</button>
       </div>
-      <div class="game-actions-display"></div>
+      <div class="game-actions-display">
+        <div
+          class="game-display-option display-active"
+          data-display="actions"
+        ></div>
+        <div class="game-display-option" data-display="shop"></div>
+        <div class="game-display-option" data-display="monster-hunt"></div>
+      </div>
       <div class="game-info-display"></div>
       <!--Character column-->
       <div class="character-stats">
