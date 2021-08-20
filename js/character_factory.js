@@ -32,13 +32,14 @@ const equipmentFactory = function () {
     _gearSlots[slot] = null;
     return item;
   };
-  const addGear = function (slot, item) {
+  const _checkGearSlot = function (item) {};
+  const equipGear = function (slot, item) {
     const oldItem = removeGear();
     _gearSlots[slot] = item;
     return oldItem;
   };
   const curGear = () => _gearSlots;
-  return { addGear, removeGear, curGear };
+  return { equipGear, removeGear, curGear };
 };
 //Character coins management
 const coinsFactory = function () {
@@ -67,6 +68,7 @@ const characterFactory = function (userName, userPassword) {
   const getAttack = () => attack;
   const getArmor = () => armor;
   //Character gear ✔️
+  const gear = equipmentFactory();
   //Character inventory ✔️
   const inventory = inventoryFactory();
   //Character coins
@@ -77,9 +79,47 @@ const characterFactory = function (userName, userPassword) {
     getHitPoints,
     getAttack,
     getArmor,
+    gear,
     inventory,
   };
 };
-//creat some characters
-const stomp = characterFactory('Stomp', 111);
-stomp.inventory.addItem(dagger);
+
+//Character
+//character have name and password
+//character have inventory and gear slots
+//
+//SHOP
+//buy item
+//--check if inventory has empty spot
+//----no empty slot
+//------tell player there is no room in inventory and return
+//----no enough coins
+//------tell player there is no enough coins return
+//----have empty slot and have enough coins
+//------create item and add it to player, decrement coins
+//------create log 'You bought item x for y coins [DATE]'
+//
+//sell item
+//--sell item from inventory or gear slot and get coins for that item
+//----delete item
+//----increment coins
+//----create log 'You sold item for x coins [date]'
+//
+//TRANSFER
+//transfer item
+//--if target character have room in inventory
+//----remove item from current player and create same item is targets inventory
+//----create log for current player 'You gave item x to y [date]'
+//----create log for target player 'You received item x from y [date]'
+//transfer coins
+//--if amount >= 0 send coins
+//----decrement amount from current player and increment amount for target player
+//----create log 'You gave x coins to y'
+//----create log for current player 'You gave x coins to y [date]'
+//----create log for target player 'You received x coins from y [date]'
+//
+//CONSUME ITEM
+//
+//GEAR MANAGEMENT
+//
+//GO IN MONSTER HUNT
