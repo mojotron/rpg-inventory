@@ -56,7 +56,7 @@ nav {
   width: 96%;
   height: 100vh;
   margin: 0 auto;
-  opacity: 0;
+  /* opacity: 0; */
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: 0.25fr repeat(4, 1fr) 0.25fr;
@@ -67,11 +67,12 @@ nav {
 /*Game column */
 .game-options-selector {
   grid-area: 1 / 1 / 2 / 2;
-  background-color: lawngreen;
+  background-color: var(--dark-main-color);
 }
 .game-actions-display {
   grid-area: 2 / 1 / 6 / 2;
-  background-color: rgb(149, 252, 47);
+  background-color: var(--dark-main-color);
+  overflow: scroll;
 }
 .game-info-display {
   grid-area: 6 / 1 / 7 / 2;
@@ -161,4 +162,52 @@ nav {
 }
 .character-currency p {
   margin-right: 2rem;
+}
+/*Options tab buttons*/
+.btn-tab {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  height: 100%;
+  font-size: 1.5rem;
+  margin-right: 1px;
+  background-color: var(--light-main-color);
+  border-radius: 10px 10px 0 0;
+  padding: 0.3rem 1.3rem;
+  opacity: 0.5;
+}
+.btn-tab-active {
+  opacity: 1;
+}
+/*Shop item*/
+.item {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+  background: linear-gradient(90deg, rgb(160, 159, 143), rgb(211, 241, 186));
+  border-radius: 10px;
+}
+.item-info,
+.item-bonus,
+.item-price {
+  display: flex;
+  width: 25%;
+}
+.item-bonus p,
+.item-price p {
+  margin-right: 0.7rem;
+}
+
+.btn-buy-item {
+  font-family: inherit;
+  font-size: 1.3rem;
+  color: var(--dark-main-color);
+  border: 3px solid var(--dark-main-color);
+  padding: 0.3rem 0.5rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgb(118, 121, 89), rgb(236, 236, 224));
+  cursor: pointer;
 }

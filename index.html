@@ -34,26 +34,38 @@
     <main class="game-display">
       <!--Game column-->
       <div class="game-options-selector">
-        <button>Actions</button>
-        <button>Shop</button>
-        <button>Monster hunt</button>
+        <button class="btn-tab">Actions</button>
+        <button class="btn-tab btn-tab-active" data-tab="shop">Shop</button>
+        <button class="btn-tab">Monster hunt</button>
       </div>
       <div class="game-actions-display">
-        <div
-          class="game-display-option display-active"
-          data-display="actions"
-        ></div>
-        <div class="game-display-option" data-display="shop"></div>
-        <div class="game-display-option" data-display="monster-hunt"></div>
+        <div class="item">
+          <div class="item-info">
+            <p>Dagger <span>🔪</span></p>
+          </div>
+          <div class="item-bonus">
+            <p>🪓+<span class="bonus-attack">1</span></p>
+          </div>
+          <div class="item-price">
+            <p>🟡<span class="price-gold">12</span></p>
+            <p>⚪<span class="price-silver">50</span></p>
+          </div>
+          <button class="btn-buy-item">Buy Item</button>
+        </div>
       </div>
       <div class="game-info-display"></div>
       <!--Character column-->
       <div class="character-stats">
         <p class="character-name">Chad</p>
         <div class="character-hp-armor">
-          <p>❤️<span class="character-hit-points">5</span></p>
-          <p>🪓<span class="character-attack">3</span></p>
-          <p>🛡️<span class="character-armor">5</span></p>
+          <p>
+            ❤️ <span class="character-hit-points">5</span>/<span
+              class="character-max-HP"
+              >10</span
+            >
+          </p>
+          <p>🪓 <span class="character-attack">3</span></p>
+          <p>🛡️ <span class="character-armor">5</span></p>
         </div>
       </div>
 
@@ -83,9 +95,9 @@
         </div>
       </div>
       <div class="character-currency">
-        <p>🟡<span class="currency-gold">6</span></p>
-        <p>⚪<span class="currency-silver">35</span></p>
-        <p>🟤<span class="currency-copper">20</span></p>
+        <p>🟡 <span class="currency-gold">6</span></p>
+        <p>⚪ <span class="currency-silver">35</span></p>
+        <p>🟤 <span class="currency-copper">20</span></p>
       </div>
     </main>
   </body>
