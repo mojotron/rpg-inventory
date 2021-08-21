@@ -12,7 +12,6 @@ const copperToCoins = function (value) {
   ];
 };
 
-let currentChar;
 //pre made characters
 
 //Selectors
@@ -24,13 +23,37 @@ const loginBtn = document.querySelector('.login-btn');
 //Character ui selectors
 const charName = document.querySelector('.character-name');
 const charHP = document.querySelector('.character-hit-points');
+const charMaxHP = document.querySelector('.character-max-HP');
 const charAttack = document.querySelector('.character-attack');
 const charArmor = document.querySelector('.character-armor');
 const charGold = document.querySelector('.currency-gold');
 const charSilver = document.querySelector('.currency-silver');
 const charCopper = document.querySelector('.currency-copper');
 //LOG IN USER
-loginBtn.addEventListener('click', function (e) {});
+const characters = [stomp];
+let currentChar;
+loginBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentChar = characters.find(char => char.getName() === loginCharName.value);
+  if (currentChar.getPassword() === +loginCharPass.value) {
+    //display relevant player stats
+    charName.textContent = currentChar.getName();
+    charHP.textContent = currentChar.getHP();
+    charMaxHP.textContent = currentChar.getMaxHP();
+    charAttack.textContent = currentChar.getAttack();
+    charArmor.textContent = currentChar.getArmor();
+    const [gold, silver, copper] = copperToCoins(currentChar.getCoins());
+    charGold.textContent = gold;
+    charSilver.textContent = silver;
+    charCopper.textContent = copper;
+    //display game app
+    gameApp.style.opacity = '1';
+  }
+  //Clear inputs
+  loginCharName.value = loginCharPass.value = '';
+  loginCharPass.blur();
+  loginCharPass.blur();
+});
 //////////////////////////////////////////////////////////////////////
 //Display Items in shop
 const shopTab = document.querySelector('.btn-tab[data-tab="shop"]');

@@ -86,14 +86,20 @@
 
 const characterFactory = function (character, password) {
   //Character main stats
-  let hitPoints = 10;
-  let maxHitPoints = 10;
-  let attack = 1;
-  let armor = 0;
-  let coins = 500;
+  let _hitPoints = 10;
+  let _maxHitPoints = 10;
+  let _attack = 1;
+  let _armor = 0;
+  let _coins = 19999;
 
   const getName = () => character;
   const getPassword = () => password;
+  const getHP = () => _hitPoints;
+  const getMaxHP = () => _maxHitPoints;
+  const getAttack = () => _attack;
+  const getArmor = () => _armor;
+  const getCoins = () => _coins;
+
   //Character game log
   const _actions = [];
 
@@ -126,6 +132,11 @@ const characterFactory = function (character, password) {
     //Stats
     getName,
     getPassword,
+    getHP,
+    getMaxHP,
+    getAttack,
+    getArmor,
+    getCoins,
     //Actions
     getActions,
     //Inventory
