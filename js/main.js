@@ -20,32 +20,38 @@ const gameApp = document.querySelector('.game-display');
 const loginCharName = document.querySelector('.login-user-character');
 const loginCharPass = document.querySelector('.login-user-password');
 const loginBtn = document.querySelector('.login-btn');
-//Character ui selectors
-const charName = document.querySelector('.character-name');
-const charHP = document.querySelector('.character-hit-points');
-const charMaxHP = document.querySelector('.character-max-HP');
-const charAttack = document.querySelector('.character-attack');
-const charArmor = document.querySelector('.character-armor');
-const charGold = document.querySelector('.currency-gold');
-const charSilver = document.querySelector('.currency-silver');
-const charCopper = document.querySelector('.currency-copper');
 //LOG IN USER
 const characters = [stomp];
-let currentChar;
+let curChar = stomp;
+//UPDATE CHARACTER UI
+const updateCharacterStats = function () {
+  document.querySelector('.character-name').textContent = curChar.getName();
+  document.querySelector('.character-HP').textContent = curChar.getHP();
+  document.querySelector('.character-max-HP').textContent = curChar.getMaxHP();
+  document.querySelector('.character-attack').textContent = curChar.getAttack();
+  document.querySelector('.character-armor').textContent = curChar.getArmor();
+  const [gold, silver, copper] = copperToCoins(curChar.getCoins());
+  document.querySelector('.currency-gold').textContent = gold;
+  document.querySelector('.currency-silver').textContent = silver;
+  document.querySelector('.currency-copper').textContent = copper;
+};
+updateCharacterStats(); //TODO remove
+//UPDATE INVENTORY
+const updateCharacterInventory = function () {
+  curChar.getInventory().forEach((item, i) => {
+    const domSlot = document.querySelector(`.inventory-slot[data-slot="${i}"`);
+    domSlot.textContent = item?.emoji ?? '';
+  });
+};
+updateCharacterInventory(); //TODO remove
+//UPDATE EQUIPMENT
 loginBtn.addEventListener('click', function (e) {
   e.preventDefault();
-  currentChar = characters.find(char => char.getName() === loginCharName.value);
-  if (currentChar.getPassword() === +loginCharPass.value) {
+  curChar = characters.find(char => char.getName() === loginCharName.value);
+  if (curChar?.getPassword() === +loginCharPass.value) {
     //display relevant player stats
-    charName.textContent = currentChar.getName();
-    charHP.textContent = currentChar.getHP();
-    charMaxHP.textContent = currentChar.getMaxHP();
-    charAttack.textContent = currentChar.getAttack();
-    charArmor.textContent = currentChar.getArmor();
-    const [gold, silver, copper] = copperToCoins(currentChar.getCoins());
-    charGold.textContent = gold;
-    charSilver.textContent = silver;
-    charCopper.textContent = copper;
+    updateCharacterStats();
+    updateCharacterInventory();
     //display game app
     gameApp.style.opacity = '1';
   }
@@ -61,7 +67,7 @@ const mainDisplay = document.querySelector('.game-actions-display');
 
 shopTab.addEventListener('click', function () {
   mainDisplay.innerHTML = '';
-  items.forEach(function (item) {
+  items.forEach(function (item, i) {
     const newItem = document.createElement('div');
     newItem.classList.add('item');
     const [gold, silver, copper] = copperToCoins(item.value);
@@ -82,7 +88,7 @@ shopTab.addEventListener('click', function () {
         ${silver ? `<p>⚪<span class="price-silver">${silver}</span></p>` : ''}
         ${copper ? `<p>🟤<span class="price-copper">${copper}</span></p>` : ''}
       </div>
-      <button class="btn-buy-item">Buy Item</button>
+      <button class="btn-buy-item" data-item-position="${i}">Buy Item</button>
     `;
 
     newItem.innerHTML = itemHTML;
@@ -90,3 +96,63 @@ shopTab.addEventListener('click', function () {
   });
 });
 ////////////////////////////////////////////////////////////////////////////
+//BUYING ITEM
+mainDisplay.addEventListener('click', function (e) {
+  if (!e.target.classList.contains('btn-buy-item')) return;
+  //check if player have enough gold and have room in inventory
+  const item = items[e.target.dataset.itemPosition];
+  if (item.value > curChar.getCoins()) {
+    alert('Not enough coins');
+    return;
+  }
+  if (curChar.fullBag()) {
+    alert('Your bag is full');
+    return;
+  }
+
+  curChar.addItem(item); //item to inventory
+  curChar.loseCoins(item.value); //decrement gold
+  curChar.makeAction(`You bought ${item.title} ${item.emoji}`);
+  //make action
+  updateCharacterStats();
+  updateCharacterInventory();
+});
+//DISPLAYING ACTIONS
+const actionsTab = document.querySelector(`.btn-tab[data-tab="actions"]`);
+
+actionsTab.addEventListener('click', function () {
+  mainDisplay.innerHTML = '';
+
+  curChar.getActions().forEach((action, i) => {
+    const date = new Date(action.date);
+
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    };
+
+    const formatDate = Intl.DateTimeFormat(navigator.language, options).format(
+      date
+    );
+
+    const newAction = document.createElement('div');
+    newAction.classList.add('action');
+
+    if (i % 2 === 0) {
+      newAction.style.background =
+        'linear-gradient(90deg, rgb(189, 224, 221), rgb(54, 247, 205))';
+    } else {
+      newAction.style.background =
+        'linear-gradient(-90deg, rgb(247, 115, 54), rgb(216, 202, 192)';
+    }
+
+    const actionHTML = `
+    <p class="action-index">${i + 1}</p>
+    <p class="action-date">${formatDate}</p>
+    <p class="action-message">${action.message}</p>
+    `;
+    newAction.innerHTML = actionHTML;
+    mainDisplay.insertAdjacentElement('beforeend', newAction);
+  });
+});

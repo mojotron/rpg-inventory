@@ -185,6 +185,7 @@ nav {
   font-size: 1.5rem;
   display: flex;
   justify-content: center;
+  align-items: baseline;
   padding: 1rem 2rem;
   margin: 0.5rem;
   background: linear-gradient(90deg, rgb(160, 159, 143), rgb(211, 241, 186));
@@ -208,6 +209,22 @@ nav {
   border: 3px solid var(--dark-main-color);
   padding: 0.3rem 0.5rem;
   border-radius: 3px;
-  background: linear-gradient(90deg, rgb(118, 121, 89), rgb(236, 236, 224));
+  background: linear-gradient(90deg, rgb(123, 134, 134), rgb(160, 248, 248));
   cursor: pointer;
+}
+/*action*/
+.action {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+.action p {
+  margin-right: 2rem;
+}
+.action p:last-child {
+  margin-right: 0;
 }

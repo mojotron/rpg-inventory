@@ -15,7 +15,7 @@
     <nav>
       <p class="welcome-msg">RPG Inventory <span class="game-icon">⚔️</span></p>
 
-      <form action="login">
+      <form class="login">
         <input
           type="text"
           class="login-input login-user-character"
@@ -34,10 +34,11 @@
     <main class="game-display">
       <!--Game column-->
       <div class="game-options-selector">
-        <button class="btn-tab">Actions</button>
+        <button class="btn-tab" data-tab="actions">Actions</button>
         <button class="btn-tab btn-tab-active" data-tab="shop">Shop</button>
         <button class="btn-tab">Monster hunt</button>
       </div>
+
       <div class="game-actions-display">
         <div class="item">
           <div class="item-info">
@@ -52,6 +53,12 @@
           </div>
           <button class="btn-buy-item">Buy Item</button>
         </div>
+
+        <div class="action">
+          <p class="action-index">1</p>
+          <p class="action-date">18/8/2021</p>
+          <p class="action-message">Hello</p>
+        </div>
       </div>
       <div class="game-info-display"></div>
       <!--Character column-->
@@ -59,7 +66,7 @@
         <p class="character-name">Chad</p>
         <div class="character-hp-armor">
           <p>
-            ❤️ <span class="character-hit-points">5</span>/<span
+            ❤️ <span class="character-HP">5</span>/<span
               class="character-max-HP"
               >10</span
             >

@@ -58,12 +58,6 @@
 // };
 // //Character actions
 // const characterFactory = function (userName, userPassword) {
-//   let hitPoints = 10;
-//   let maxHitPoints = 10;
-//   let attack = 1;
-//   let armor = 0;
-//   const getName = () => userName;
-//   const getPassword = () => userPassword;
 //   const getHitPoints = () => `${hitPoints}/${maxHitPoints}`;
 //   const getAttack = () => attack;
 //   const getArmor = () => armor;
@@ -99,23 +93,26 @@ const characterFactory = function (character, password) {
   const getAttack = () => _attack;
   const getArmor = () => _armor;
   const getCoins = () => _coins;
+  const earnCoins = value => (_coins += value);
+  const loseCoins = value => (_coins -= value);
 
   //Character game log
   const _actions = [];
 
-  const _makeAction = function (message) {
+  const makeAction = function (message) {
     const date = new Date().toISOString();
     _actions.push({ date, message });
   };
   const getActions = () => [..._actions];
 
   const init = () =>
-    _makeAction(`${character} is created. Welcome to the RPG-Inventory!`);
+    makeAction(`${character} is created. Welcome to the RPG-Inventory!`);
   init();
 
   //Character inventory
   const _inventory = Array.from({ length: 9 }, () => null);
   const _emptySlot = () => _inventory.findIndex(ele => ele === null);
+  const fullBag = () => !_inventory.some(ele => ele === null);
   const addItem = function (item) {
     const emptySpot = _emptySlot();
     if (emptySpot === -1) return `Inventory is full!`;
@@ -137,15 +134,21 @@ const characterFactory = function (character, password) {
     getAttack,
     getArmor,
     getCoins,
+    earnCoins,
+    loseCoins,
     //Actions
     getActions,
+    makeAction,
     //Inventory
     addItem,
     removeItem,
     getInventory,
+    fullBag,
   };
 };
 const stomp = characterFactory('Stomp', 111);
+stomp.addItem(sword);
+stomp.addItem(apple);
 //Character
 //character have name and password
 //character have inventory and gear slots
