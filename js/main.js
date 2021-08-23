@@ -157,7 +157,7 @@ actionsTab.addEventListener('click', function () {
   });
 });
 
-//INVENTORY ITEM OPTIONS
+//INVENTORY ITEM BOX OPTIONS
 const generalOptionBoxHTML = function (item) {
   const { maxHP, attack, armor, heal } = item.bonus;
   const [gold, silver, copper] = copperToCoins(item.value);
@@ -190,36 +190,68 @@ const generalOptionBoxHTML = function (item) {
         <input type="text" placeholder="character name" />
         <button class="btn-character-option">Send</button>
     </form>
-    <button class="btn-character-option">Sell</button>
+    <button class="btn-character-option" data-option="sell">Sell</button>
   `;
   return html;
 };
-const createOptionElement = function (inventoryIndex) {
-  const item = curChar.getInventory()[inventoryIndex];
-  const generalHTML = generalOptionBoxHTML(item);
-  const optionHTML = `
-    
-    <button class="btn-character-option">Equip</button>
-    <button class="btn-character-option">Remove</button>
-    <button class="btn-character-option">Consume</button> 
-  `;
-  return generalHTML + optionHTML;
+
+const inventoryOptionsBoxHtml = function (item) {
+  if (item.type === `food`) {
+    return `<button class="btn-character-option">Consume</button>`;
+  } else {
+    return `<button class="btn-character-option">Equip</button>`;
+  }
 };
 
+const equipmentOptionsBoxHtml = function (item) {
+  return `<button class="btn-character-option">Remove</button>`;
+};
+
+const body = document.querySelector('body');
 const inventory = document.querySelector('.character-inventory-slots');
+
 inventory.addEventListener('dblclick', function (e) {
   if (!e.target.classList.contains('inventory-slot')) return;
   if (e.target.textContent === '') return;
+
   const [x, y] = [e.clientX, e.clientY];
   const slotIndex = e.target.dataset.slot;
+  const item = curChar.getInventory()[slotIndex];
+
   const optionsBox = document.createElement('div');
-  const body = document.querySelector('body');
   optionsBox.classList.add('options-box');
   optionsBox.style.position = 'absolute';
   optionsBox.style.top = `${y}px`;
   optionsBox.style.left = `${x}px`;
   optionsBox.textContent = slotIndex;
-
-  optionsBox.innerHTML = createOptionElement(slotIndex);
+  const html = generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
+  optionsBox.innerHTML = html;
   body.appendChild(optionsBox);
+
+  const sellBtn = document.querySelector(
+    `.options-box button[data-option="sell"]`
+  );
+  console.log(sellBtn);
+  sellBtn.addEventListener('click', function () {
+    sellItemFromInventory(slotIndex, item.value);
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
+  });
 });
+
+//CLOSE OPTION BOX
+body.addEventListener('click', function (e) {
+  if (e.target.closest('.options-box')) return;
+  const box = document.querySelector('.options-box');
+  if (box) body.removeChild(box);
+});
+//SELL ITEM
+//from inventory
+const sellItemFromInventory = function (slotIndex, itemValue) {
+  //remove item from inventory add value to coins
+  curChar.removeItem(slotIndex);
+  curChar.earnCoins(itemValue);
+  //update character ui
+  updateCharacterStats();
+  updateCharacterInventory();
+};

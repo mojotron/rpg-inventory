@@ -9,7 +9,7 @@ const itemFactory = function (title, emoji, value, type, bonusArr) {
   return { title, emoji, value, type, bonus };
 };
 //Arms
-const dagger = itemFactory('Dagger', '🔪', 125000, '1H', [0, 1, 0, 0]);
+const dagger = itemFactory('Dagger', '🔪', 12500, '1H', [0, 1, 0, 0]);
 const mace = itemFactory('Wooden Mace', '🏏', 30000, '1H', [0, 2, 0, 0]);
 const sword = itemFactory('Short Sword', '🗡️', 50000, '1H', [1, 5, 0, 0]);
 const bow = itemFactory('Long Bow', '🏹', 100000, '2H', [2, 7, 3, 0]);

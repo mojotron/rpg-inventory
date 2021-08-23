@@ -267,6 +267,9 @@ nav {
   font-size: 1.3rem;
   padding: 0.2rem 0;
 }
+.transfer-item {
+  border-bottom: 2px solid var(--light-main-color);
+}
 .btn-character-option:hover {
   color: var(--dark-main-color);
   background-color: #bbec9b;
