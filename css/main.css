@@ -7,6 +7,7 @@
 html {
   font-size: 16px;
   box-sizing: border-box;
+  user-select: none;
 }
 body {
   font-family: 'Germania One', sans-serif;
@@ -227,4 +228,63 @@ nav {
 }
 .action p:last-child {
   margin-right: 0;
+}
+/*option box*/
+.options-box {
+  position: absolute;
+  top: 300px;
+  width: 10rem;
+  background-color: var(--dark-main-color);
+  border: 3px solid var(--light-main-color);
+  color: var(--light-main-color);
+  border-radius: 5px;
+}
+.options-item-info {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-bottom: 3px solid var(--light-main-color);
+}
+.options-item-bonus,
+.options-item-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+}
+.options-item-bonus p,
+.options-item-value p {
+  padding-left: 0.5rem;
+}
+.btn-character-option {
+  font-family: inherit;
+  display: block;
+  border: none;
+  background: none;
+  color: var(--light-main-color);
+  width: 100%;
+  font-size: 1.3rem;
+  padding: 0.2rem 0;
+}
+.btn-character-option:hover {
+  color: var(--dark-main-color);
+  background-color: #bbec9b;
+}
+
+.options-box input {
+  font-family: inherit;
+  color: var(--dark-main-color);
+  box-sizing: border-box;
+  border: none;
+  width: 10rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 3px;
+}
+
+.options-box input::placeholder {
+  font-family: inherit;
+  color: #999;
+  text-align: center;
 }

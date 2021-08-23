@@ -156,3 +156,70 @@ actionsTab.addEventListener('click', function () {
     mainDisplay.insertAdjacentElement('beforeend', newAction);
   });
 });
+
+//INVENTORY ITEM OPTIONS
+const generalOptionBoxHTML = function (item) {
+  const { maxHP, attack, armor, heal } = item.bonus;
+  const [gold, silver, copper] = copperToCoins(item.value);
+  const html = `
+    <div class="options-item-info">
+      <p class="options-item-title"><span>${item.emoji}</span>${item.title}</p>
+      <div class="options-item-bonus">
+        ${maxHP ? `<p class="item-bonus-HP">❤️+<span>${maxHP}</span></p>` : ''}
+        ${
+          attack ? `<p class="item-bonus-HP">🪓+<span>${attack}</span></p>` : ''
+        }
+        ${armor ? `<p class="item-bonus-HP">🛡️+<span>${armor}</span></p>` : ''}
+        ${heal ? `<p class="item-bonus-HP">🩹+<span>${heal}</span></p>` : ''}
+      </div>
+      <div class="options-item-value">
+      ${gold ? `<p class="item-value-gold">🟡<span>${gold}</span></p>` : ''}
+      ${
+        silver
+          ? `<p class="item-value-silver">⚪<span>${silver}</span></p>`
+          : ''
+      }
+      ${
+        copper
+          ? `<p class="item-value-copper">🟤<span>${copper}</span></p>`
+          : ''
+      }
+      </div>
+    </div>
+    <form class="transfer-item">
+        <input type="text" placeholder="character name" />
+        <button class="btn-character-option">Send</button>
+    </form>
+    <button class="btn-character-option">Sell</button>
+  `;
+  return html;
+};
+const createOptionElement = function (inventoryIndex) {
+  const item = curChar.getInventory()[inventoryIndex];
+  const generalHTML = generalOptionBoxHTML(item);
+  const optionHTML = `
+    
+    <button class="btn-character-option">Equip</button>
+    <button class="btn-character-option">Remove</button>
+    <button class="btn-character-option">Consume</button> 
+  `;
+  return generalHTML + optionHTML;
+};
+
+const inventory = document.querySelector('.character-inventory-slots');
+inventory.addEventListener('dblclick', function (e) {
+  if (!e.target.classList.contains('inventory-slot')) return;
+  if (e.target.textContent === '') return;
+  const [x, y] = [e.clientX, e.clientY];
+  const slotIndex = e.target.dataset.slot;
+  const optionsBox = document.createElement('div');
+  const body = document.querySelector('body');
+  optionsBox.classList.add('options-box');
+  optionsBox.style.position = 'absolute';
+  optionsBox.style.top = `${y}px`;
+  optionsBox.style.left = `${x}px`;
+  optionsBox.textContent = slotIndex;
+
+  optionsBox.innerHTML = createOptionElement(slotIndex);
+  body.appendChild(optionsBox);
+});
