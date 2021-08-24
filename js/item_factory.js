@@ -29,7 +29,7 @@ const legs2 = itemFactory('Leather Shoes', '👞', 64000, 'legs', [1, 0, 4, 0]);
 const legs3 = itemFactory('Heavy Boots', '🥾', 82500, 'legs', [3, 1, 6, 0]);
 //Consumables
 const apple = itemFactory('Tasty Apple', '🍏', 85, 'food', [0, 0, 0, 1]);
-const bread = itemFactory('Aged Cheese', '🧀', 725, 'food', [0, 0, 0, 3]);
+const cheese = itemFactory('Aged Cheese', '🧀', 725, 'food', [0, 0, 0, 3]);
 const meat = itemFactory('Chicken Leg', '🍗', 1050, 'food', [0, 0, 0, 5]);
 const potion = itemFactory('Health Potion', '🧪', 22550, 'food', [0, 0, 0, 10]);
 //🧦 👑
@@ -51,7 +51,7 @@ const items = [
   legs2,
   legs3,
   apple,
-  bread,
+  cheese,
   meat,
   potion,
 ];

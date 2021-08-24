@@ -21,7 +21,7 @@ const loginCharName = document.querySelector('.login-user-character');
 const loginCharPass = document.querySelector('.login-user-password');
 const loginBtn = document.querySelector('.login-btn');
 //LOG IN USER
-const characters = [stomp];
+const characters = [stomp, draw, slick];
 let curChar = stomp;
 //UPDATE CHARACTER UI
 const updateCharacterStats = function () {
@@ -35,7 +35,6 @@ const updateCharacterStats = function () {
   document.querySelector('.currency-silver').textContent = silver;
   document.querySelector('.currency-copper').textContent = copper;
 };
-updateCharacterStats(); //TODO remove
 //UPDATE INVENTORY
 const updateCharacterInventory = function () {
   curChar.getInventory().forEach((item, i) => {
@@ -43,8 +42,21 @@ const updateCharacterInventory = function () {
     domSlot.textContent = item?.emoji ?? '';
   });
 };
-updateCharacterInventory(); //TODO remove
 //UPDATE EQUIPMENT
+const updateCharacterEquipment = function () {
+  const equipment = document.querySelectorAll('.gear-slot');
+  equipment.forEach(slot => {
+    slot.textContent = curChar.getGear(slot.dataset.gear)?.emoji ?? '';
+  });
+};
+
+const updateCharacterUI = function () {
+  updateCharacterStats();
+  updateCharacterInventory();
+  updateCharacterEquipment();
+};
+updateCharacterUI();
+
 loginBtn.addEventListener('click', function (e) {
   e.preventDefault();
   curChar = characters.find(char => char.getName() === loginCharName.value);
@@ -52,6 +64,7 @@ loginBtn.addEventListener('click', function (e) {
     //display relevant player stats
     updateCharacterStats();
     updateCharacterInventory();
+    updateCharacterEquipment();
     //display game app
     gameApp.style.opacity = '1';
   }
@@ -187,8 +200,8 @@ const generalOptionBoxHTML = function (item) {
       </div>
     </div>
     <form class="transfer-item">
-        <input type="text" placeholder="character name" />
-        <button class="btn-character-option">Send</button>
+        <input class="character-target-name" type="text" placeholder="character name" />
+        <button class="btn-character-option" data-option="send">Send</button>
     </form>
     <button class="btn-character-option" data-option="sell">Sell</button>
   `;
@@ -211,6 +224,7 @@ const body = document.querySelector('body');
 const inventory = document.querySelector('.character-inventory-slots');
 
 inventory.addEventListener('dblclick', function (e) {
+  e.preventDefault();
   if (!e.target.classList.contains('inventory-slot')) return;
   if (e.target.textContent === '') return;
 
@@ -223,7 +237,7 @@ inventory.addEventListener('dblclick', function (e) {
   optionsBox.style.position = 'absolute';
   optionsBox.style.top = `${y}px`;
   optionsBox.style.left = `${x}px`;
-  optionsBox.textContent = slotIndex;
+
   const html = generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
   optionsBox.innerHTML = html;
   body.appendChild(optionsBox);
@@ -231,9 +245,26 @@ inventory.addEventListener('dblclick', function (e) {
   const sellBtn = document.querySelector(
     `.options-box button[data-option="sell"]`
   );
-  console.log(sellBtn);
   sellBtn.addEventListener('click', function () {
     sellItemFromInventory(slotIndex, item.value);
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
+  });
+
+  const sendBtn = document.querySelector(
+    '.options-box button[data-option="send"]'
+  );
+  sendBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    const input = document.querySelector('.character-target-name');
+    if (input.value === curChar.getName()) return;
+    const targetChar = characters.find(char => char.getName() === input.value);
+    if (!targetChar) return;
+    if (targetChar.fullBag()) return;
+    //chek if target have empty spot
+    targetChar.addItem(curChar.removeItem(slotIndex));
+    updateCharacterUI();
+
     const box = document.querySelector('.options-box');
     body.removeChild(box);
   });
@@ -255,3 +286,54 @@ const sellItemFromInventory = function (slotIndex, itemValue) {
   updateCharacterStats();
   updateCharacterInventory();
 };
+
+//MAKE EQUIPMENT OPTION ITEM BOX
+const equipmentContainer = document.querySelector('.character-gear-slots');
+equipmentContainer.addEventListener('dblclick', function (e) {
+  if (!e.target.classList.contains('gear-slot')) return;
+  if (e.target.textContent === '') return;
+  //create option box element with info, send, sell, remove
+  const [x, y] = [e.clientX, e.clientY];
+  const slot = e.target.dataset.gear;
+  const item = curChar.getGear(slot);
+
+  const optionsBox = document.createElement('div');
+  optionsBox.classList.add('options-box');
+  optionsBox.style.position = 'absolute';
+  optionsBox.style.top = `${y}px`;
+  optionsBox.style.left = `${x}px`;
+
+  const html = generalOptionBoxHTML(item) + equipmentOptionsBoxHtml(item);
+  optionsBox.innerHTML = html;
+  body.appendChild(optionsBox);
+  //
+  const sellBtn = document.querySelector(
+    `.options-box button[data-option="sell"]`
+  );
+  sellBtn.addEventListener('click', function () {
+    curChar.removeGear(slot);
+    curChar.earnCoins(item.value);
+    updateCharacterUI();
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
+  });
+
+  const sendBtn = document.querySelector(
+    '.options-box button[data-option="send"]'
+  );
+  sendBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    const input = document.querySelector('.character-target-name');
+    if (input.value === curChar.getName()) return;
+    const targetChar = characters.find(char => char.getName() === input.value);
+    if (!targetChar) return;
+    if (targetChar.fullBag()) return;
+
+    targetChar.addItem(curChar.removeGear(slot));
+
+    updateCharacterUI();
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
+  });
+  //
+});

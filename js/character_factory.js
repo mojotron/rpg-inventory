@@ -1,84 +1,5 @@
 'use strict';
-//Character inventory
-// const inventoryFactory = function () {
-//   const _inventory = Array.from({ length: 9 }, () => null);
-//   const _isFull = () => !_inventory.includes(null);
-//   const _emptySlot = () => _inventory.findIndex(ele => ele === null);
-//   const getInventory = () => [..._inventory]; //preventing mutating
-//   const addItem = function (item) {
-//     if (_isFull()) return;
-//     _inventory[_emptySlot()] = item;
-//   };
-//   const removeItem = function (index) {
-//     const item = _inventory[index];
-//     _inventory[index] = null;
-//     return item;
-//   };
-
-//   return { getInventory, addItem, removeItem };
-// };
-//Character gear management
-// const equipmentFactory = function () {
-//   const _gearSlots = {
-//     head: null,
-//     body: null,
-//     legs: null,
-//     leftArm: null,
-//     rightArm: null,
-//   };
-//   const _emptySlot = slot => _gearSlots[slot] === null;
-//   const removeGear = function (slot) {
-//     const item = _emptySlot(slot) ? undefined : _gearSlots[slot];
-//     _gearSlots[slot] = null;
-//     return item;
-//   };
-//   const _checkGearSlot = function (item) {};
-//   const equipGear = function (slot, item) {
-//     const oldItem = removeGear();
-//     _gearSlots[slot] = item;
-//     return oldItem;
-//   };
-//   const curGear = () => _gearSlots;
-//   return { equipGear, removeGear, curGear };
-// };
-//Character coins management
-// const coinsFactory = function () {
-//   const _coins = {
-//     gold: 4,
-//     silver: 99,
-//     copper: 99,
-//   };
-//   const gainCoins = function (gold, silver, copper) {};
-//   const loseCoins = function (gold, silver, copper) {};
-//   const currentCoins = function () {
-//     const { gold, silver, copper } = _coins;
-//     return [gold, silver, copper];
-//   };
-//   return { gainCoins, loseCoins, currentCoins };
-// };
-// //Character actions
-// const characterFactory = function (userName, userPassword) {
-//   const getHitPoints = () => `${hitPoints}/${maxHitPoints}`;
-//   const getAttack = () => attack;
-//   const getArmor = () => armor;
-//   //Character gear ✔️
-//   const gear = equipmentFactory();
-//   //Character inventory ✔️
-//   const inventory = inventoryFactory();
-//   //Character coins
-//   //Character actions
-//   return {
-//     getName,
-//     getPassword,
-//     getHitPoints,
-//     getAttack,
-//     getArmor,
-//     gear,
-//     inventory,
-//   };
-// };
-
-const characterFactory = function (character, password) {
+const CharacterFactory = function (character, password) {
   //Character main stats
   let _hitPoints = 10;
   let _maxHitPoints = 10;
@@ -125,6 +46,45 @@ const characterFactory = function (character, password) {
     return item;
   };
   const getInventory = () => [..._inventory];
+
+  //Character equipment
+  const _equipment = {
+    head: null,
+    body: null,
+    legs: null,
+    leftArm: null,
+    rightArm: null,
+  };
+  const _addBonus = function (item) {
+    const { maxHP, attack, armor } = item.bonus;
+    _maxHitPoints += maxHP;
+    _attack += attack;
+    _armor += armor;
+  };
+  const _removeBonus = function (item) {
+    const { maxHP, attack, armor } = item.bonus;
+    _maxHitPoints -= maxHP;
+    _attack -= attack;
+    _armor -= armor;
+  };
+
+  const getGear = slot => _equipment[slot];
+
+  const _decreaseItemValue = item => (item.value -= item.value * 0.1);
+
+  const addGear = function (slot, item) {
+    // _decreaseItemValue(item); //TODO this is item function, add to item factory
+    _equipment[slot] = item;
+    _addBonus(item);
+  };
+
+  const removeGear = function (slot) {
+    const item = _equipment[slot];
+    _equipment[slot] = null;
+    _removeBonus(item);
+    return item;
+  };
+
   return {
     //Stats
     getName,
@@ -144,11 +104,26 @@ const characterFactory = function (character, password) {
     removeItem,
     getInventory,
     fullBag,
+    //Equipment
+    getGear,
+    addGear,
+    removeGear,
   };
 };
-const stomp = characterFactory('Stomp', 111);
+const stomp = CharacterFactory('Stomp', 111);
 stomp.addItem(sword);
 stomp.addItem(apple);
+stomp.addGear('head', head3);
+stomp.addGear('body', body3);
+stomp.addGear('legs', legs3);
+stomp.addGear('rightArm', sword);
+const draw = CharacterFactory('Draw', 222);
+draw.addItem(bow);
+draw.addItem(cheese);
+draw.addItem(meat);
+draw.addGear('body', body2);
+draw.addGear('leftArm', dagger);
+const slick = CharacterFactory('Slick', 333);
 //Character
 //character have name and password
 //character have inventory and gear slots

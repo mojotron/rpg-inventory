@@ -235,7 +235,7 @@ nav {
   top: 300px;
   width: 10rem;
   background-color: var(--dark-main-color);
-  border: 3px solid var(--light-main-color);
+  border: 3px solid rgb(85, 74, 9);
   color: var(--light-main-color);
   border-radius: 5px;
 }
