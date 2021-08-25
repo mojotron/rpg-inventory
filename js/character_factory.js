@@ -17,6 +17,10 @@ const CharacterFactory = function (character, password) {
   const earnCoins = value => (_coins += value);
   const loseCoins = value => (_coins -= value);
 
+  const _hpCorrect = function () {
+    if (_hitPoints > _maxHitPoints) _hitPoints = _maxHitPoints;
+  };
+
   //Character game log
   const _actions = [];
 
@@ -45,6 +49,16 @@ const CharacterFactory = function (character, password) {
     _inventory[spot] = null;
     return item;
   };
+
+  const eatFood = function (spot) {
+    const item = removeItem(spot);
+    _hitPoints += item.bonus.heal;
+    _hpCorrect();
+    makeAction(
+      `You consumed ${item.emoji} ${item.title} for additional ${item.bonus.heal} HP.`
+    );
+  };
+
   const getInventory = () => [..._inventory];
 
   //Character equipment
@@ -73,7 +87,7 @@ const CharacterFactory = function (character, password) {
   const _decreaseItemValue = item => (item.value -= item.value * 0.1);
 
   const addGear = function (slot, item) {
-    // _decreaseItemValue(item); //TODO this is item function, add to item factory
+    
     _equipment[slot] = item;
     _addBonus(item);
   };
@@ -84,6 +98,8 @@ const CharacterFactory = function (character, password) {
     _removeBonus(item);
     return item;
   };
+
+  const 
 
   return {
     //Stats
@@ -104,6 +120,7 @@ const CharacterFactory = function (character, password) {
     removeItem,
     getInventory,
     fullBag,
+    eatFood,
     //Equipment
     getGear,
     addGear,

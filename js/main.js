@@ -125,7 +125,7 @@ mainDisplay.addEventListener('click', function (e) {
 
   curChar.addItem(item); //item to inventory
   curChar.loseCoins(item.value); //decrement gold
-  curChar.makeAction(`You bought ${item.title} ${item.emoji}`);
+  curChar.makeAction(`You bought ${item.emoji} ${item.title}.`);
   //make action
   updateCharacterStats();
   updateCharacterInventory();
@@ -210,14 +210,14 @@ const generalOptionBoxHTML = function (item) {
 
 const inventoryOptionsBoxHtml = function (item) {
   if (item.type === `food`) {
-    return `<button class="btn-character-option">Consume</button>`;
+    return `<button class="btn-character-option" data-option="consume">Consume</button>`;
   } else {
-    return `<button class="btn-character-option">Equip</button>`;
+    return `<button class="btn-character-option" data-option="equip">Equip</button>`;
   }
 };
 
 const equipmentOptionsBoxHtml = function (item) {
-  return `<button class="btn-character-option">Remove</button>`;
+  return `<button class="btn-character-option" data-option="remove">Remove</button>`;
 };
 
 const body = document.querySelector('body');
@@ -261,8 +261,18 @@ inventory.addEventListener('dblclick', function (e) {
     const targetChar = characters.find(char => char.getName() === input.value);
     if (!targetChar) return;
     if (targetChar.fullBag()) return;
-    //chek if target have empty spot
     targetChar.addItem(curChar.removeItem(slotIndex));
+    updateCharacterUI();
+
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
+  });
+
+  const consumeBtn = document.querySelector(
+    '.options-box button[data-option="consume"]'
+  );
+  consumeBtn.addEventListener('click', function (e) {
+    curChar.eatFood(slotIndex);
     updateCharacterUI();
 
     const box = document.querySelector('.options-box');
@@ -334,6 +344,15 @@ equipmentContainer.addEventListener('dblclick', function (e) {
     updateCharacterUI();
     const box = document.querySelector('.options-box');
     body.removeChild(box);
+  });
+
+  const btnRemove = document.querySelector(
+    '.options-box button[data-option="remove"]'
+  );
+  btnRemove.addEventListener('click', function () {
+    curChar.addItem(curChar.removeGear(slot));
+    console.log(item);
+    updateCharacterUI();
   });
   //
 });
