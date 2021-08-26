@@ -86,20 +86,54 @@ const CharacterFactory = function (character, password) {
 
   const _decreaseItemValue = item => (item.value -= item.value * 0.1);
 
+  const _itemGearSlots = function (item) {
+    if (item.type === 'head') return getGear('head') === null;
+    if (item.type === 'body') return getGear('body') === null;
+    if (item.type === 'legs') return getGear('legs') === null;
+    if (item.type === '1H') return !getGear('leftArm') || !getGear('rightArm');
+    if (item.type === '2H') return !getGear('leftArm') && !getGear('rightArm');
+  };
   const addGear = function (slot, item) {
-    
     _equipment[slot] = item;
     _addBonus(item);
   };
 
   const removeGear = function (slot) {
     const item = _equipment[slot];
-    _equipment[slot] = null;
+
+    if (item.type === '2H') {
+      _equipment.leftArm = null;
+      _equipment.rightArm = null;
+    } else {
+      _equipment[slot] = null;
+    }
     _removeBonus(item);
     return item;
   };
 
-  const 
+  const equipGear = function (spot) {
+    const item = _inventory[spot];
+    const free = _itemGearSlots(item);
+    if (!free) return;
+    if (item.type === 'head') addGear('head', removeItem(spot));
+    if (item.type === 'body') addGear('body', removeItem(spot));
+    if (item.type === 'legs') addGear('legs', removeItem(spot));
+    if (item.type === '1H') {
+      if (_equipment.leftArm === null) {
+        addGear('leftArm', removeItem(spot));
+        return;
+      }
+      if (_equipment.rightArm === null) {
+        addGear('rightArm', removeItem(spot));
+        return;
+      }
+    }
+    if (item.type === '2H') {
+      addGear('leftArm', removeItem(spot));
+      addGear('rightArm', item);
+      _removeBonus(item);
+    }
+  };
 
   return {
     //Stats
@@ -125,6 +159,7 @@ const CharacterFactory = function (character, password) {
     getGear,
     addGear,
     removeGear,
+    equipGear,
   };
 };
 const stomp = CharacterFactory('Stomp', 111);
@@ -141,42 +176,9 @@ draw.addItem(meat);
 draw.addGear('body', body2);
 draw.addGear('leftArm', dagger);
 const slick = CharacterFactory('Slick', 333);
-//Character
-//character have name and password
-//character have inventory and gear slots
-//
-//SHOP
-//buy item
-//--check if inventory has empty spot
-//----no empty slot
-//------tell player there is no room in inventory and return
-//----no enough coins
-//------tell player there is no enough coins return
-//----have empty slot and have enough coins
-//------create item and add it to player, decrement coins
-//------create log 'You bought item x for y coins [DATE]'
-//
-//sell item
-//--sell item from inventory or gear slot and get coins for that item
-//----delete item
-//----increment coins
-//----create log 'You sold item for x coins [date]'
-//
-//TRANSFER
-//transfer item
-//--if target character have room in inventory
-//----remove item from current player and create same item is targets inventory
-//----create log for current player 'You gave item x to y [date]'
-//----create log for target player 'You received item x from y [date]'
-//transfer coins
-//--if amount >= 0 send coins
-//----decrement amount from current player and increment amount for target player
-//----create log 'You gave x coins to y'
-//----create log for current player 'You gave x coins to y [date]'
-//----create log for target player 'You received x coins from y [date]'
-//
-//CONSUME ITEM
-//
-//GEAR MANAGEMENT
-//
-//GO IN MONSTER HUNT
+slick.addItem(head1);
+slick.addItem(body1);
+slick.addItem(legs1);
+slick.addItem(sword);
+slick.addItem(sword);
+slick.addItem(axe);

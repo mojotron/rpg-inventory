@@ -268,16 +268,29 @@ inventory.addEventListener('dblclick', function (e) {
     body.removeChild(box);
   });
 
-  const consumeBtn = document.querySelector(
-    '.options-box button[data-option="consume"]'
-  );
-  consumeBtn.addEventListener('click', function (e) {
-    curChar.eatFood(slotIndex);
-    updateCharacterUI();
+  if (document.querySelector('.options-box button[data-option="consume"]')) {
+    const consumeBtn = document.querySelector(
+      '.options-box button[data-option="consume"]'
+    );
+    consumeBtn.addEventListener('click', function (e) {
+      curChar.eatFood(slotIndex);
+      updateCharacterUI();
+      const box = document.querySelector('.options-box');
+      body.removeChild(box);
+    });
+  }
 
-    const box = document.querySelector('.options-box');
-    body.removeChild(box);
-  });
+  if (document.querySelector('.options-box button[data-option="equip"]')) {
+    const equipBtn = document.querySelector(
+      '.options-box button[data-option="equip"]'
+    );
+    equipBtn.addEventListener('click', function () {
+      curChar.equipGear(slotIndex);
+      updateCharacterUI();
+      const box = document.querySelector('.options-box');
+      body.removeChild(box);
+    });
+  }
 });
 
 //CLOSE OPTION BOX
@@ -351,8 +364,9 @@ equipmentContainer.addEventListener('dblclick', function (e) {
   );
   btnRemove.addEventListener('click', function () {
     curChar.addItem(curChar.removeGear(slot));
-    console.log(item);
     updateCharacterUI();
+    const box = document.querySelector('.options-box');
+    body.removeChild(box);
   });
   //
 });
