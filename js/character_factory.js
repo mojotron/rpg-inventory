@@ -49,6 +49,24 @@ const CharacterFactory = function (character, password) {
     _inventory[spot] = null;
     return item;
   };
+  const buyItem = function (item) {
+    if (item.value > getCoins()) {
+      alert('Not enough coins');
+      return;
+    }
+    if (fullBag()) {
+      alert('Your bag is full');
+      return;
+    }
+    addItem(item); //item to inventory
+    loseCoins(item.value); //decrement gold
+    makeAction(`You bought ${item.emoji} ${item.title}.`);
+  };
+
+  const sellItem = function (spot) {
+    const item = removeItem(spot);
+    earnCoins(item.value);
+  };
 
   const eatFood = function (spot) {
     const item = removeItem(spot);
@@ -155,6 +173,8 @@ const CharacterFactory = function (character, password) {
     getInventory,
     fullBag,
     eatFood,
+    buyItem,
+    sellItem,
     //Equipment
     getGear,
     addGear,
@@ -182,3 +202,5 @@ slick.addItem(legs1);
 slick.addItem(sword);
 slick.addItem(sword);
 slick.addItem(axe);
+
+const characters = [stomp, draw, slick];

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
 :root {
   --dark-main-color: #38383d;
-  --light-main-color: #9aaab4;
+  --light-main-color: #c3c3ca; /* #c3c3ca #9aaab4*/
 }
 html {
   font-size: 16px;
@@ -221,6 +221,7 @@ nav {
   padding: 1rem 2rem;
   margin: 0.5rem;
   border-radius: 10px;
+  background: linear-gradient(90deg, rgb(189, 224, 221), rgb(54, 247, 205));
 }
 .action p {
   margin-right: 2rem;

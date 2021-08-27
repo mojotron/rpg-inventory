@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="css/main.css" />
     <script defer src="js/item_factory.js"></script>
     <script defer src="js/character_factory.js"></script>
+    <script defer src="js/dynamicHTML.js"></script>
     <script defer src="js/main.js"></script>
     <title>RPG Inventory | Simple Character Inventory Design</title>
   </head>
   <body>
     <nav>
       <p class="welcome-msg">RPG Inventory <span class="game-icon">⚔️</span></p>
-
       <form class="login">
         <input
           type="text"
@@ -41,57 +41,10 @@
         <button class="btn-tab">Monster hunt</button>
       </div>
 
-      <div class="game-actions-display">
-        <!-- <div class="item">
-          <div class="item-info">
-            <p>Dagger <span>🔪</span></p>
-          </div>
-          <div class="item-bonus">
-            <p>🪓+<span class="bonus-attack">1</span></p>
-          </div>
-          <div class="item-price">
-            <p>🟡<span class="price-gold">12</span></p>
-            <p>⚪<span class="price-silver">50</span></p>
-          </div>
-          <button class="btn-buy-item">Buy Item</button>
-        </div> -->
-
-        <div class="action">
-          <p class="action-index">1</p>
-          <p class="action-date">18/8/2021</p>
-          <p class="action-message">Hello</p>
-        </div>
-      </div>
-
-      <!-- <div class="options-box">
-        <div class="options-item-info">
-          <p class="options-item-title"><span>🗡️</span>Short Sword</p>
-          <div class="options-item-bonus">
-            <p class="item-bonus-HP">❤️+<span>1</span></p>
-            <p class="item-bonus-HP">🪓+<span>1</span></p>
-            <p class="item-bonus-HP">🛡️+<span>1</span></p>
-            <p class="item-bonus-HP">🩹+<span>1</span></p>
-          </div>
-          <div class="options-item-value">
-            <p class="item-value-gold">🟡<span>1</span></p>
-            <p class="item-value-silver">⚪<span>1</span></p>
-            <p class="item-value-copper">🟤<span>1</span></p>
-          </div>
-        </div>
-
-        <button class="btn-character-option">Sell</button>
-        <button class="btn-character-option">Equip</button>
-        <button class="btn-character-option">Remove</button>
-
-        <form class="transfer-item">
-          <input type="text" placeholder="character name" />
-          <button class="btn-character-option">Send</button>
-        </form>
-
-        <button class="btn-character-option">Consume</button>
-      </div> -->
+      <div class="game-actions-display"></div>
 
       <div class="game-info-display"></div>
+
       <!--Character column-->
       <div class="character-stats">
         <p class="character-name">Chad</p>
@@ -131,6 +84,7 @@
           <div class="inventory-slot" data-slot="8"></div>
         </div>
       </div>
+
       <div class="character-currency">
         <p>🟡<span class="currency-gold">6</span></p>
         <p>⚪<span class="currency-silver">35</span></p>
