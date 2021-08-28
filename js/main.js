@@ -8,8 +8,10 @@ const loginCharName = document.querySelector('.login-user-character');
 const loginCharPass = document.querySelector('.login-user-password');
 const loginBtn = document.querySelector('.login-btn');
 const shopTab = document.querySelector('.btn-tab[data-tab="shop"]');
+const actionsTab = document.querySelector(`.btn-tab[data-tab="actions"]`);
 const mainDisplay = document.querySelector('.game-actions-display');
-
+const inventoryContainer = document.querySelector('.character-inventory-slots');
+const equipmentContainer = document.querySelector('.character-gear-slots');
 //UPDATE CHARACTER UI
 const updateCharacterStats = function () {
   document.querySelector('.character-name').textContent = curChar.getName();
@@ -43,7 +45,7 @@ const updateCharacterUI = function () {
   updateCharacterEquipment();
 };
 updateCharacterUI(); //TODO remove when finish
-//LOGIN EVENT HANDLER
+//EVENT HANDLERS
 const loginCharacter = function (event) {
   event.preventDefault();
   curChar = characters.find(char => char.getName() === loginCharName.value);
@@ -57,8 +59,6 @@ const loginCharacter = function (event) {
   loginCharPass.blur();
 };
 
-loginBtn.addEventListener('click', loginCharacter);
-//Shop tab event handler
 const shopItemElements = function () {
   mainDisplay.innerHTML = '';
   items.forEach((item, i) => {
@@ -68,18 +68,14 @@ const shopItemElements = function () {
     mainDisplay.insertAdjacentElement('beforeend', shopItem);
   });
 };
-//Display Items in shop
-shopTab.addEventListener('click', shopItemElements);
-//BUYING ITEM event handler
+
 const buyItemFromShop = function (event) {
   if (!event.target.classList.contains('btn-buy-item')) return;
   const item = items[event.target.dataset.itemPosition];
   curChar.buyItem(item);
   updateCharacterUI();
 };
-mainDisplay.addEventListener('click', buyItemFromShop);
-//DISPLAYING ACTIONS
-const actionsTab = document.querySelector(`.btn-tab[data-tab="actions"]`);
+
 const actionElements = function () {
   mainDisplay.innerHTML = '';
   curChar.getActions().forEach((action, i) => {
@@ -92,146 +88,132 @@ const actionElements = function () {
     mainDisplay.insertAdjacentElement('beforeend', newAction);
   });
 };
-actionsTab.addEventListener('click', actionElements);
-//Option box for inventory items
-const inventory = document.querySelector('.character-inventory-slots');
-inventory.addEventListener('dblclick', function (e) {
-  e.preventDefault();
-  if (!e.target.classList.contains('inventory-slot')) return;
-  if (e.target.textContent === '') return;
 
-  const [x, y] = [e.clientX, e.clientY];
-  const slotIndex = e.target.dataset.slot;
-  const item = curChar.getInventory()[slotIndex];
+//Inventory box options event handlers
+const invSellBtnHandler = function (spot) {
+  curChar.sellItem(spot);
+  removeBoxAndUpdateUI();
+};
+const invSendBtnHandler = function (spot) {
+  const input = document.querySelector('.character-target-name');
+  if (input.value === curChar.getName()) return;
+  const targetChar = characters.find(char => char.getName() === input.value);
+  if (!targetChar) return;
+  if (targetChar.fullBag()) return;
+  targetChar.addItem(curChar.removeItem(spot));
+  removeBoxAndUpdateUI();
+};
+const invConsumeBtnHandler = function (spot) {
+  curChar.eatFood(spot);
+  removeBoxAndUpdateUI();
+};
 
-  const optionsBox = document.createElement('div');
-  optionsBox.classList.add('options-box');
-  optionsBox.style.position = 'absolute';
-  optionsBox.style.top = `${y}px`;
-  optionsBox.style.left = `${x}px`;
-
-  const html = generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
-  optionsBox.innerHTML = html;
-  body.appendChild(optionsBox);
-
-  const sellBtn = document.querySelector(
-    `.options-box button[data-option="sell"]`
-  );
-  sellBtn.addEventListener('click', function () {
-    curChar.sellItem(slotIndex);
-    updateCharacterUI();
-    const box = document.querySelector('.options-box');
-    body.removeChild(box);
-  });
-
-  const sendBtn = document.querySelector(
-    '.options-box button[data-option="send"]'
-  );
-  sendBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    const input = document.querySelector('.character-target-name');
-    if (input.value === curChar.getName()) return;
-    const targetChar = characters.find(char => char.getName() === input.value);
-    if (!targetChar) return;
-    if (targetChar.fullBag()) return;
-    targetChar.addItem(curChar.removeItem(slotIndex));
-
-    updateCharacterUI();
-    const box = document.querySelector('.options-box');
-    body.removeChild(box);
-  });
-
-  if (document.querySelector('.options-box button[data-option="consume"]')) {
-    const consumeBtn = document.querySelector(
-      '.options-box button[data-option="consume"]'
-    );
-    consumeBtn.addEventListener('click', function (e) {
-      curChar.eatFood(slotIndex);
-
-      updateCharacterUI();
-      const box = document.querySelector('.options-box');
-      body.removeChild(box);
-    });
-  }
-
-  if (document.querySelector('.options-box button[data-option="equip"]')) {
-    const equipBtn = document.querySelector(
-      '.options-box button[data-option="equip"]'
-    );
-    equipBtn.addEventListener('click', function () {
-      curChar.equipGear(slotIndex);
-      updateCharacterUI();
-      const box = document.querySelector('.options-box');
-      body.removeChild(box);
-    });
-  }
-});
-
+const invEquipBtnHandler = function (spot) {
+  curChar.equipGear(spot);
+  removeBoxAndUpdateUI();
+};
+//Equipment option box handler
+const gearSellBtnHandler = function (slot) {
+  curChar.sellGear(slot);
+  removeBoxAndUpdateUI();
+};
+const gearSendBtnHandler = function (slot) {
+  const input = document.querySelector('.character-target-name');
+  if (input.value === curChar.getName()) return;
+  const targetChar = characters.find(char => char.getName() === input.value);
+  if (!targetChar) return;
+  if (targetChar.fullBag()) return;
+  targetChar.addItem(curChar.removeGear(slot));
+  removeBoxAndUpdateUI();
+};
+const gearRemoveBtnHandler = function (slot) {
+  curChar.addItem(curChar.removeGear(slot));
+  removeBoxAndUpdateUI();
+};
+//Equipment box options event listeners
+const removeBoxAndUpdateUI = function () {
+  document.querySelector('.options-box').remove();
+  updateCharacterUI();
+};
 //CLOSE OPTION BOX if user clicks outside box
 body.addEventListener('click', function (e) {
   if (e.target.closest('.options-box')) return;
   const box = document.querySelector('.options-box');
   if (box) box.remove();
 });
+const createOptionBox = function (x, y) {
+  const box = document.createElement('div');
+  box.classList.add('options-box');
+  box.style.top = `${y}px`;
+  box.style.left = `${x}px`;
+  return box;
+};
+//MAKE INVENTORY OPTION BOX ELEMENT
+inventoryContainer.addEventListener('dblclick', function (e) {
+  if (!e.target.classList.contains('inventory-slot')) return;
+  if (e.target.textContent === '') return;
 
-//MAKE EQUIPMENT OPTION ITEM BOX
-const equipmentContainer = document.querySelector('.character-gear-slots');
+  const spotIndex = e.target.dataset.slot;
+  const item = curChar.getInventory()[spotIndex];
+  //Create option box element to current mouse position
+  const optionsBox = createOptionBox(e.clientX, e.clientY);
+  optionsBox.innerHTML =
+    generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
+  body.appendChild(optionsBox);
+  //Add event listeners to dynamically created buttons on inventory item
+  //Sell button
+  document
+    .querySelector(`.options-box button[data-option="sell"]`)
+    .addEventListener('click', invSellBtnHandler.bind(this, spotIndex));
+  //Send button
+  document
+    .querySelector('.options-box button[data-option="send"]')
+    .addEventListener('click', function (e) {
+      e.preventDefault();
+      invSendBtnHandler(spotIndex);
+    });
+  //Check if item is food or gear -> add event listener according if statement
+  if (item.type === 'food') {
+    document
+      .querySelector('.options-box button[data-option="consume"]')
+      .addEventListener('click', invConsumeBtnHandler.bind(this, spotIndex));
+  } else {
+    document
+      .querySelector('.options-box button[data-option="equip"]')
+      .addEventListener('click', invEquipBtnHandler.bind(this, spotIndex));
+  }
+});
+//MAKE EQUIPMENT OPTION BOX ELEMENT
 equipmentContainer.addEventListener('dblclick', function (e) {
   if (!e.target.classList.contains('gear-slot')) return;
   if (e.target.textContent === '') return;
-  //create option box element with info, send, sell, remove
-  const [x, y] = [e.clientX, e.clientY];
+
   const slot = e.target.dataset.gear;
   const item = curChar.getGear(slot);
-
-  const optionsBox = document.createElement('div');
-  optionsBox.classList.add('options-box');
-  optionsBox.style.position = 'absolute';
-  optionsBox.style.top = `${y}px`;
-  optionsBox.style.left = `${x}px`;
-
-  const html = generalOptionBoxHTML(item) + equipmentOptionsBoxHtml(item);
-  optionsBox.innerHTML = html;
+  //Create option box element to current mouse position
+  const optionsBox = createOptionBox(e.clientX, e.clientY);
+  optionsBox.innerHTML =
+    generalOptionBoxHTML(item) + equipmentOptionsBoxHtml(item);
   body.appendChild(optionsBox);
-  //
-  const sellBtn = document.querySelector(
-    `.options-box button[data-option="sell"]`
-  );
-  sellBtn.addEventListener('click', function () {
-    //TODO sell from char function
-    curChar.removeGear(slot);
-    curChar.earnCoins(item.value);
-    updateCharacterUI();
-    const box = document.querySelector('.options-box');
-    body.removeChild(box);
-  });
-
-  const sendBtn = document.querySelector(
-    '.options-box button[data-option="send"]'
-  );
-  sendBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    const input = document.querySelector('.character-target-name');
-    if (input.value === curChar.getName()) return;
-    const targetChar = characters.find(char => char.getName() === input.value);
-    if (!targetChar) return;
-    if (targetChar.fullBag()) return;
-
-    targetChar.addItem(curChar.removeGear(slot));
-
-    updateCharacterUI();
-    document.querySelector('.options-box').remove();
-    // body.removeChild(box);
-  });
-
-  const btnRemove = document.querySelector(
-    '.options-box button[data-option="remove"]'
-  );
-  btnRemove.addEventListener('click', function () {
-    curChar.addItem(curChar.removeGear(slot));
-    updateCharacterUI();
-    const box = document.querySelector('.options-box');
-    body.removeChild(box);
-  });
-  //
+  //Add event listeners to dynamically created buttons on gear item
+  //Sell button
+  document
+    .querySelector(`.options-box button[data-option="sell"]`)
+    .addEventListener('click', gearSellBtnHandler.bind(this, slot));
+  //Send button
+  document
+    .querySelector('.options-box button[data-option="send"]')
+    .addEventListener('click', function (e) {
+      e.preventDefault();
+      gearSendBtnHandler(slot);
+    });
+  //Remove gear form equipment
+  document
+    .querySelector('.options-box button[data-option="remove"]')
+    .addEventListener('click', gearRemoveBtnHandler.bind(this, slot));
 });
+//Event Listeners for section of the page
+loginBtn.addEventListener('click', loginCharacter);
+shopTab.addEventListener('click', shopItemElements);
+actionsTab.addEventListener('click', actionElements);
+mainDisplay.addEventListener('click', buyItemFromShop);

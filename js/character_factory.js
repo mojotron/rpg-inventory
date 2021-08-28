@@ -129,6 +129,11 @@ const CharacterFactory = function (character, password) {
     return item;
   };
 
+  const sellGear = function (slot) {
+    const item = removeGear(slot);
+    earnCoins(item.value);
+  };
+
   const equipGear = function (spot) {
     const item = _inventory[spot];
     const free = _itemGearSlots(item);
@@ -180,6 +185,7 @@ const CharacterFactory = function (character, password) {
     addGear,
     removeGear,
     equipGear,
+    sellGear,
   };
 };
 const stomp = CharacterFactory('Stomp', 111);
