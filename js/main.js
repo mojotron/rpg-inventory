@@ -88,7 +88,7 @@ const actionElements = function () {
     mainDisplay.insertAdjacentElement('beforeend', newAction);
   });
 };
-
+actionElements();
 //Inventory box options event handlers
 const invSellBtnHandler = function (spot) {
   curChar.sellItem(spot);
@@ -217,3 +217,7 @@ loginBtn.addEventListener('click', loginCharacter);
 shopTab.addEventListener('click', shopItemElements);
 actionsTab.addEventListener('click', actionElements);
 mainDisplay.addEventListener('click', buyItemFromShop);
+////////////////
+////////////////
+////////////////
+const tabsContainer = document.querySelector('.game-options-selector');

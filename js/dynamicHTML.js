@@ -18,6 +18,16 @@ const formatDate = function (dateString) {
   return Intl.DateTimeFormat(navigator.language, options).format(date);
 };
 
+const formatDateText = function (dateSting) {
+  const now = new Date();
+  const date = new Date(dateSting);
+  const days = Math.floor((now - date) / (24 * 60 * 60 * 1000));
+  if (days === 0) return `Today`;
+  if (days === 0) return `Yesterday`;
+  if (day < 8) return `${days} days ago`;
+  return formatDate(date);
+};
+
 const shopItemHTML = function (item, index) {
   const [gold, silver, copper] = copperToCoins(item.value);
   const { maxHP, attack, armor, heal } = item.bonus;
@@ -43,7 +53,7 @@ const shopItemHTML = function (item, index) {
 const actionHTML = function (action, i) {
   return `
   <p class="action-index">${i + 1}</p>
-  <p class="action-date">${formatDate(action.date)}</p>
+  <p class="action-date">${formatDateText(action.date)}</p>
   <p class="action-message">${action.message}</p>
   `;
 };

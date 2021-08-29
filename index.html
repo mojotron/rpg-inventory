@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔️</text></svg>"
+    />
     <script defer src="js/item_factory.js"></script>
     <script defer src="js/character_factory.js"></script>
     <script defer src="js/dynamicHTML.js"></script>
@@ -43,7 +47,22 @@
 
       <div class="game-actions-display"></div>
 
-      <div class="game-info-display"></div>
+      <div class="game-info-display">
+        <div class="hp-regeneration">
+          <p>❤️<span class="hp-timer">02:00</span></p>
+        </div>
+        <form class="send-coins">
+          <label class="name-me" for="">Send Coins</label>
+          <input class="send-coins-input" type="text" placeholder="character" />
+          <label for="send-coins-gold">🟡</label>
+          <input type="number" id="send-coins-gold" />
+          <label for="send-coins-silver">⚪</label>
+          <input type="number" id="send-coins-silver" />
+          <label for="send-coins-copper">🟤</label>
+          <input type="number" id="send-coins-copper" />
+          <button>&rightarrowtail;</button>
+        </form>
+      </div>
 
       <!--Character column-->
       <div class="character-stats">

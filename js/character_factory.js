@@ -14,24 +14,20 @@ const CharacterFactory = function (character, password) {
   const getAttack = () => _attack;
   const getArmor = () => _armor;
   const getCoins = () => _coins;
-  const earnCoins = value => (_coins += value);
-  const loseCoins = value => (_coins -= value);
-
+  const _earnCoins = value => (_coins += value);
+  const _loseCoins = value => (_coins -= value);
   const _hpCorrect = function () {
     if (_hitPoints > _maxHitPoints) _hitPoints = _maxHitPoints;
   };
-
   //Character game log
   const _actions = [];
-
-  const makeAction = function (message) {
+  const _makeAction = function (message) {
     const date = new Date().toISOString();
     _actions.push({ date, message });
   };
   const getActions = () => [..._actions];
-
   const init = () =>
-    makeAction(`${character} is created. Welcome to the RPG-Inventory!`);
+    _makeAction(`${character} is created. Welcome to the RPG-Inventory!`);
   init();
 
   //Character inventory
@@ -59,20 +55,20 @@ const CharacterFactory = function (character, password) {
       return;
     }
     addItem(item); //item to inventory
-    loseCoins(item.value); //decrement gold
-    makeAction(`You bought ${item.emoji} ${item.title}.`);
+    _loseCoins(item.value); //decrement gold
+    _makeAction(`You bought ${item.emoji} ${item.title}.`);
   };
 
   const sellItem = function (spot) {
     const item = removeItem(spot);
-    earnCoins(item.value);
+    _earnCoins(item.value);
   };
 
   const eatFood = function (spot) {
     const item = removeItem(spot);
     _hitPoints += item.bonus.heal;
     _hpCorrect();
-    makeAction(
+    _makeAction(
       `You consumed ${item.emoji} ${item.title} for additional ${item.bonus.heal} HP.`
     );
   };
@@ -102,8 +98,6 @@ const CharacterFactory = function (character, password) {
 
   const getGear = slot => _equipment[slot];
 
-  const _decreaseItemValue = item => (item.value -= item.value * 0.1);
-
   const _itemGearSlots = function (item) {
     if (item.type === 'head') return getGear('head') === null;
     if (item.type === 'body') return getGear('body') === null;
@@ -114,24 +108,6 @@ const CharacterFactory = function (character, password) {
   const addGear = function (slot, item) {
     _equipment[slot] = item;
     _addBonus(item);
-  };
-
-  const removeGear = function (slot) {
-    const item = _equipment[slot];
-
-    if (item.type === '2H') {
-      _equipment.leftArm = null;
-      _equipment.rightArm = null;
-    } else {
-      _equipment[slot] = null;
-    }
-    _removeBonus(item);
-    return item;
-  };
-
-  const sellGear = function (slot) {
-    const item = removeGear(slot);
-    earnCoins(item.value);
   };
 
   const equipGear = function (spot) {
@@ -156,6 +132,27 @@ const CharacterFactory = function (character, password) {
       addGear('rightArm', item);
       _removeBonus(item);
     }
+    _makeAction(`You equipped ${item.emoji} ${item.title}`);
+  };
+
+  const removeGear = function (slot) {
+    const item = _equipment[slot];
+
+    if (item.type === '2H') {
+      _equipment.leftArm = null;
+      _equipment.rightArm = null;
+    } else {
+      _equipment[slot] = null;
+    }
+    _removeBonus(item);
+    _makeAction(`You removed ${item.emoji} ${item.title} from equipment`);
+    return item;
+  };
+
+  const sellGear = function (slot) {
+    const item = removeGear(slot);
+    _earnCoins(item.value);
+    _makeAction(`You sold ${item.emoji} ${item.title}`);
   };
 
   return {
@@ -167,11 +164,8 @@ const CharacterFactory = function (character, password) {
     getAttack,
     getArmor,
     getCoins,
-    earnCoins,
-    loseCoins,
     //Actions
     getActions,
-    makeAction,
     //Inventory
     addItem,
     removeItem,

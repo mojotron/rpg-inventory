@@ -77,6 +77,9 @@ nav {
 .game-info-display {
   grid-area: 6 / 1 / 7 / 2;
   background-color: var(--dark-main-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 /*Character column */
 .character-stats {
@@ -290,4 +293,27 @@ nav {
   font-family: inherit;
   color: #999;
   text-align: center;
+}
+/* send coins */
+.game-info-display label {
+  font-size: 1.5rem;
+  position: relative;
+  top: 3px;
+}
+.game-info-display input {
+  font-family: inherit;
+  border: none;
+  background: var(--light-main-color);
+  color: var(--dark-main-color);
+  border-radius: 10px;
+  width: 3rem;
+  font-size: 1.1rem;
+  padding: 0.1rem 0.2rem;
+}
+.name-me {
+  color: var(--light-main-color);
+}
+.hp-regeneration {
+  color: var(--light-main-color);
+  font-size: 1.5rem;
 }
