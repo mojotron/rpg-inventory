@@ -12,6 +12,14 @@ const actionsTab = document.querySelector(`.btn-tab[data-tab="actions"]`);
 const mainDisplay = document.querySelector('.game-actions-display');
 const inventoryContainer = document.querySelector('.character-inventory-slots');
 const equipmentContainer = document.querySelector('.character-gear-slots');
+
+const clearInputs = function (...inputs) {
+  inputs.forEach(input => {
+    input.value = '';
+    input.blur();
+  });
+};
+
 //UPDATE CHARACTER UI
 const updateCharacterStats = function () {
   document.querySelector('.character-name').textContent = curChar.getName();
@@ -53,10 +61,7 @@ const loginCharacter = function (event) {
     updateCharacterUI();
     gameApp.style.opacity = '1';
   }
-  //Clear form inputs
-  loginCharName.value = loginCharPass.value = '';
-  loginCharPass.blur();
-  loginCharPass.blur();
+  clearInputs(loginCharName, loginCharPass);
 };
 
 const shopItemElements = function () {
@@ -220,4 +225,32 @@ mainDisplay.addEventListener('click', buyItemFromShop);
 ////////////////
 ////////////////
 ////////////////
-const tabsContainer = document.querySelector('.game-options-selector');
+// const tabsContainer = document.querySelector('.game-options-selector');
+
+//sending coins
+const sendGoldValue = document.querySelector('#send-coins-gold');
+const sendSilverValue = document.querySelector('#send-coins-silver');
+const sendCopperValue = document.querySelector('#send-coins-copper');
+const sendTo = document.querySelector('.send-coins-to');
+const sendCoinsBtn = document.querySelector('.btn-send-coins');
+
+sendCoinsBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  const coins = coinsToCopper(
+    +sendGoldValue.value,
+    +sendSilverValue.value,
+    +sendCopperValue.value
+  );
+  if (curChar.getCoins() < coins) {
+    alert('Not enough coins');
+    return;
+  }
+  const targetChar = characters.find(char => char.getName() === sendTo.value);
+  if (!targetChar) {
+    alert('No such character');
+    return;
+  }
+  curChar.sendCoins(coins, targetChar);
+  clearInputs(sendGoldValue, sendSilverValue, sendCopperValue, sendTo);
+  updateCharacterUI();
+});

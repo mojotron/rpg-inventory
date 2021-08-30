@@ -19,6 +19,13 @@ const CharacterFactory = function (character, password) {
   const _hpCorrect = function () {
     if (_hitPoints > _maxHitPoints) _hitPoints = _maxHitPoints;
   };
+  const addCoins = function (coins) {
+    _earnCoins(coins);
+  };
+  const sendCoins = function (coins, character) {
+    _loseCoins(coins);
+    character.addCoins(coins);
+  };
   //Character game log
   const _actions = [];
   const _makeAction = function (message) {
@@ -164,6 +171,8 @@ const CharacterFactory = function (character, password) {
     getAttack,
     getArmor,
     getCoins,
+    addCoins,
+    sendCoins,
     //Actions
     getActions,
     //Inventory

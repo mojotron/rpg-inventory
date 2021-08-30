@@ -105,3 +105,10 @@ const inventoryOptionsBoxHtml = function (item) {
 const equipmentOptionsBoxHtml = function (item) {
   return `<button class="btn-character-option" data-option="remove">Remove</button>`;
 };
+
+const alertMsg = function (msg) {
+  const alert = document.createElement('div');
+  const html = `
+  
+  `;
+};
