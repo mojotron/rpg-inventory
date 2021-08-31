@@ -153,6 +153,7 @@ const CharacterFactory = function (character, password) {
     }
     _removeBonus(item);
     _makeAction(`You removed ${item.emoji} ${item.title} from equipment`);
+    _hpCorrect();
     return item;
   };
 
@@ -160,6 +161,11 @@ const CharacterFactory = function (character, password) {
     const item = removeGear(slot);
     _earnCoins(item.value);
     _makeAction(`You sold ${item.emoji} ${item.title}`);
+  };
+
+  const heal = function () {
+    _hitPoints++;
+    _hpCorrect();
   };
 
   return {
@@ -189,6 +195,7 @@ const CharacterFactory = function (character, password) {
     removeGear,
     equipGear,
     sellGear,
+    heal,
   };
 };
 const stomp = CharacterFactory('Stomp', 111);

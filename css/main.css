@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tulpen+One&display=swap');
+
 /* @import url('https://fonts.googleapis.com/css2?family=Amarante&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
 :root {
@@ -10,7 +13,7 @@ html {
   user-select: none;
 }
 body {
-  font-family: 'Germania One', sans-serif;
+  font-family: 'Caesar Dressing', sans-serif;
   color: var(--light-main-color);
   background-color: var(--dark-main-color);
 }
@@ -54,6 +57,7 @@ nav {
 .game-display {
   background-color: var(--light-main-color);
   color: var(--dark-main-color);
+  /* font-family: 'Tulpen One'; TODO */
   width: 96%;
   height: 100vh;
   margin: 0 auto;
@@ -61,7 +65,7 @@ nav {
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: 0.25fr repeat(4, 1fr) 0.25fr;
-  grid-gap: 3px;
+  grid-gap: 1px;
 }
 /*row-start/column-start/row-end/column-end:*/
 /*Game column */
@@ -238,7 +242,7 @@ nav {
   top: 300px;
   width: 10rem;
   background-color: var(--dark-main-color);
-  border: 3px solid rgb(85, 74, 9);
+  border: 3px solid rgb(241, 94, 57);
   color: var(--light-main-color);
   border-radius: 5px;
 }

@@ -7,11 +7,10 @@ const gameApp = document.querySelector('.game-display');
 const loginCharName = document.querySelector('.login-user-character');
 const loginCharPass = document.querySelector('.login-user-password');
 const loginBtn = document.querySelector('.login-btn');
-const shopTab = document.querySelector('.btn-tab[data-tab="shop"]');
-const actionsTab = document.querySelector(`.btn-tab[data-tab="actions"]`);
 const mainDisplay = document.querySelector('.game-actions-display');
 const inventoryContainer = document.querySelector('.character-inventory-slots');
 const equipmentContainer = document.querySelector('.character-gear-slots');
+const hpTimer = document.querySelector('.hp-timer');
 
 const clearInputs = function (...inputs) {
   inputs.forEach(input => {
@@ -90,7 +89,7 @@ const actionElements = function () {
       newAction.style.background =
         'linear-gradient(-90deg, rgb(247, 115, 54), rgb(216, 202, 192)';
     newAction.innerHTML = actionHTML(action, i);
-    mainDisplay.insertAdjacentElement('beforeend', newAction);
+    mainDisplay.insertAdjacentElement('afterbegin', newAction);
   });
 };
 actionElements();
@@ -116,6 +115,7 @@ const invConsumeBtnHandler = function (spot) {
 const invEquipBtnHandler = function (spot) {
   curChar.equipGear(spot);
   removeBoxAndUpdateUI();
+  startHPRegeneration(120);
 };
 //Equipment option box handler
 const gearSellBtnHandler = function (slot) {
@@ -219,14 +219,7 @@ equipmentContainer.addEventListener('dblclick', function (e) {
 });
 //Event Listeners for section of the page
 loginBtn.addEventListener('click', loginCharacter);
-shopTab.addEventListener('click', shopItemElements);
-actionsTab.addEventListener('click', actionElements);
 mainDisplay.addEventListener('click', buyItemFromShop);
-////////////////
-////////////////
-////////////////
-// const tabsContainer = document.querySelector('.game-options-selector');
-
 //sending coins
 const sendGoldValue = document.querySelector('#send-coins-gold');
 const sendSilverValue = document.querySelector('#send-coins-silver');
@@ -254,3 +247,44 @@ sendCoinsBtn.addEventListener('click', function (e) {
   clearInputs(sendGoldValue, sendSilverValue, sendCopperValue, sendTo);
   updateCharacterUI();
 });
+
+//TABS
+const removeCssClass = function (selector, cssClass) {
+  document.querySelectorAll(selector).forEach(ele => {
+    ele.classList.remove(cssClass);
+  });
+};
+
+const tabs = document.querySelector('.game-options-selector');
+tabs.addEventListener('click', function (e) {
+  if (!e.target.classList.contains('btn-tab')) return;
+  removeCssClass('.btn-tab', 'btn-tab-active');
+  e.target.classList.add('btn-tab-active');
+  if (e.target.dataset.tab === 'actions') actionElements();
+  if (e.target.dataset.tab === 'shop') shopItemElements();
+  //TODO MONSTER HUNT TAB
+  if (e.target.dataset.tab === 'monster-hunt') mainDisplay.innerHTML = '';
+});
+
+//HP REGENERATION
+const startHPRegeneration = function (seconds) {
+  if (curChar.getHP() === curChar.getMaxHP()) return;
+  const tick = function () {
+    const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
+    const sec = `${time % 60}`.padStart(2, 0);
+    hpTimer.textContent = `${min}:${sec}`;
+    if (time === 0) {
+      clearInterval(timer);
+      curChar.heal();
+      updateCharacterUI();
+      if (curChar.getHP() < curChar.getMaxHP()) startHPRegeneration(seconds);
+    }
+    time--;
+  };
+  let time = seconds;
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
+startHPRegeneration(120);
