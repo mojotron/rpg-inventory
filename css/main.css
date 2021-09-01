@@ -321,3 +321,12 @@ nav {
   color: var(--light-main-color);
   font-size: 1.5rem;
 }
+.monster {
+  display: flex;
+  background: linear-gradient(90deg, rgb(116, 145, 116), rgb(217, 245, 208));
+  border-radius: 10px;
+  font-size: 1.3rem;
+  margin: 0.3rem;
+  padding: 1rem;
+  color: var(--dark-main-color);
+}

@@ -32,7 +32,7 @@ const apple = itemFactory('Tasty Apple', '🍏', 85, 'food', [0, 0, 0, 1]);
 const cheese = itemFactory('Aged Cheese', '🧀', 725, 'food', [0, 0, 0, 3]);
 const meat = itemFactory('Chicken Leg', '🍗', 1050, 'food', [0, 0, 0, 5]);
 const potion = itemFactory('Health Potion', '🧪', 22550, 'food', [0, 0, 0, 10]);
-//🧦 👑
+//🧦 👑 🔨 ⛏️ 🔱 ⛑️ 🥻 👘
 
 const items = [
   dagger,

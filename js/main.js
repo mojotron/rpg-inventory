@@ -93,6 +93,16 @@ const actionElements = function () {
   });
 };
 actionElements();
+
+const monsterpediaElements = function () {
+  mainDisplay.innerHTML = '';
+  monsters.forEach(monster => {
+    const newMonster = document.createElement('div');
+    newMonster.classList.add('monster');
+    newMonster.innerHTML = monsterHtml(monster);
+    mainDisplay.insertAdjacentElement('afterbegin', newMonster);
+  });
+};
 //Inventory box options event handlers
 const invSellBtnHandler = function (spot) {
   curChar.sellItem(spot);
@@ -263,7 +273,7 @@ tabs.addEventListener('click', function (e) {
   if (e.target.dataset.tab === 'actions') actionElements();
   if (e.target.dataset.tab === 'shop') shopItemElements();
   //TODO MONSTER HUNT TAB
-  if (e.target.dataset.tab === 'monster-hunt') mainDisplay.innerHTML = '';
+  if (e.target.dataset.tab === 'monsterpedia') monsterpediaElements();
 });
 
 //HP REGENERATION
