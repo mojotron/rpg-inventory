@@ -28,9 +28,9 @@ const formatDateText = function (dateSting) {
   return formatDate(date);
 };
 
-const shopItemHTML = function (item, index) {
-  const [gold, silver, copper] = copperToCoins(item.value);
+const infoItemHtml = function (item) {
   const { maxHP, attack, armor, heal } = item.bonus;
+  const [gold, silver, copper] = copperToCoins(item.value);
   return `
     <div class="item-info">
       <p>${item.title} <span>${item.emoji}</span></p>
@@ -45,9 +45,14 @@ const shopItemHTML = function (item, index) {
       ${gold ? `<p>🟡<span class="price-gold">${gold}</span></p>` : ''}
       ${silver ? `<p>⚪<span class="price-silver">${silver}</span></p>` : ''}
       ${copper ? `<p>🟤<span class="price-copper">${copper}</span></p>` : ''}
-    </div>
-    <button class="btn-buy-item" data-item-position="${index}">Buy Item</button>
-  `;
+    </div>`;
+};
+
+const shopItemHTML = function (item, index) {
+  return (
+    infoItemHtml(item) +
+    `<button class="btn-buy-item" data-item-position="${index}">Buy Item</button>`
+  );
 };
 
 const actionHTML = function (action, i) {
@@ -123,29 +128,22 @@ const alertMsg = function (msg) {
 
 const monsterHtml = function (monster) {
   return `
-    <p><span>${monster.emoji}</span><span>${monster.type}</span></p>
-    <p>🪓<span>10</span>🛡️<span>15</span></p>
-    <p>Loot:</p>
-    ${lootItemHtml(dagger)}
+    <div class="monster-info">
+      <p><span>${monster.emoji}</span><span>${monster.type}</span></p>
+      <p>🪓<span>10</span>🛡️<span>15</span></p>
+    </div>
+    <div class="monster-loot">
+      <p>Loot drop:</p>
+      ${getLootHtml(monster.loot)}
+    </div>
+    
   `;
 };
-//REFACTOR BOTTOM
-const lootItemHtml = function (item) {
-  const { maxHP, attack, armor, heal } = item.bonus;
-  const [gold, silver, copper] = copperToCoins(item.value);
-  return `
-    <div class="item-info">
-      <p>${item.title} <span>${item.emoji}</span></p>
-    </div>
-    <div class="item-bonus">
-      ${maxHP ? `<p>❤️+<span class="bonus-HP">${maxHP}</span></p>` : ''}
-      ${attack ? `<p>🪓+<span class="bonus-attack">${attack}</span></p>` : ''}
-      ${armor ? `<p>🛡️+<span class="bonus-armor">${armor}</span></p>` : ''}
-      ${heal ? `<p>🩹+<span class="bonus-armor">${heal}</span></p>` : ''}
-    </div>
-    <div class="item-price">
-      ${gold ? `<p>🟡<span class="price-gold">${gold}</span></p>` : ''}
-      ${silver ? `<p>⚪<span class="price-silver">${silver}</span></p>` : ''}
-      ${copper ? `<p>🟤<span class="price-copper">${copper}</span></p>` : ''}
-    </div>`;
+
+const getLootHtml = function (loot) {
+  let html = '';
+  loot.forEach(item => {
+    html += '<div class="loot-item">' + infoItemHtml(item) + '</div>';
+  });
+  return html;
 };
