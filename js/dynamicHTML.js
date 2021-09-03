@@ -95,14 +95,7 @@ const generalOptionBoxHTML = function (item) {
         <input class="character-target-name" type="text" placeholder="character name" />
         <button class="btn-character-option" data-option="send">Send</button>
     </form>
-    ${
-      document
-        .querySelector('.btn-tab[data-tab="shop"]')
-        .classList.contains('btn-tab-active')
-        ? '<button class="btn-character-option" data-option="sell">Sell</button>'
-        : ''
-    }
-    
+    <button class="btn-character-option" data-option="sell">Sell</button>
   `;
   //Only add sell option if character is in shop tab
 };
@@ -147,3 +140,5 @@ const getLootHtml = function (loot) {
   });
   return html;
 };
+
+const createCharFormHtml = function () {};

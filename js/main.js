@@ -177,24 +177,24 @@ inventoryContainer.addEventListener('dblclick', function (e) {
   body.appendChild(optionsBox);
   //Add event listeners to dynamically created buttons on inventory item
   //Sell button
-  document
-    .querySelector(`.options-box button[data-option="sell"]`)
+  optionsBox
+    .querySelector(`[data-option="sell"]`)
     .addEventListener('click', invSellBtnHandler.bind(this, spotIndex));
   //Send button
-  document
-    .querySelector('.options-box button[data-option="send"]')
+  optionsBox
+    .querySelector('[data-option="send"]')
     .addEventListener('click', function (e) {
       e.preventDefault();
       invSendBtnHandler(spotIndex);
     });
   //Check if item is food or gear -> add event listener according if statement
   if (item.type === 'food') {
-    document
-      .querySelector('.options-box button[data-option="consume"]')
+    optionsBox
+      .querySelector('[data-option="consume"]')
       .addEventListener('click', invConsumeBtnHandler.bind(this, spotIndex));
   } else {
-    document
-      .querySelector('.options-box button[data-option="equip"]')
+    optionsBox
+      .querySelector('[data-option="equip"]')
       .addEventListener('click', invEquipBtnHandler.bind(this, spotIndex));
   }
 });
@@ -212,19 +212,19 @@ equipmentContainer.addEventListener('dblclick', function (e) {
   body.appendChild(optionsBox);
   //Add event listeners to dynamically created buttons on gear item
   //Sell button
-  document
-    .querySelector(`.options-box button[data-option="sell"]`)
+  optionsBox
+    .querySelector(`[data-option="sell"]`)
     .addEventListener('click', gearSellBtnHandler.bind(this, slot));
   //Send button
-  document
-    .querySelector('.options-box button[data-option="send"]')
+  optionsBox
+    .querySelector('[data-option="send"]')
     .addEventListener('click', function (e) {
       e.preventDefault();
       gearSendBtnHandler(slot);
     });
   //Remove gear form equipment
-  document
-    .querySelector('.options-box button[data-option="remove"]')
+  optionsBox
+    .querySelector('[data-option="remove"]')
     .addEventListener('click', gearRemoveBtnHandler.bind(this, slot));
 });
 //Event Listeners for section of the page
@@ -296,5 +296,10 @@ const startHPRegeneration = function (seconds) {
   const timer = setInterval(tick, 1000);
   return timer;
 };
-
 startHPRegeneration(120);
+
+// const goHunt = document.querySelector('.btn-go-hunt');
+// goHunt.addEventListener('click', function (e) {
+//   e.preventDefault();
+//   alert('HUNT');
+// });
