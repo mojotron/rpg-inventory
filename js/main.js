@@ -96,11 +96,11 @@ actionElements();
 
 const monsterpediaElements = function () {
   mainDisplay.innerHTML = '';
-  monsters.forEach(monster => {
+  Monster.monsters.forEach(monster => {
     const newMonster = document.createElement('div');
     newMonster.classList.add('monster');
     newMonster.innerHTML = monsterHtml(monster);
-    mainDisplay.insertAdjacentElement('afterbegin', newMonster);
+    mainDisplay.insertAdjacentElement('beforeend', newMonster);
   });
 };
 //Inventory box options event handlers
@@ -298,8 +298,11 @@ const startHPRegeneration = function (seconds) {
 };
 startHPRegeneration(120);
 
-// const goHunt = document.querySelector('.btn-go-hunt');
-// goHunt.addEventListener('click', function (e) {
-//   e.preventDefault();
-//   alert('HUNT');
-// });
+const goHunt = document.querySelector('.btn-go-hunt');
+goHunt.addEventListener('click', function (e) {
+  e.preventDefault();
+  curChar.monsterHunt(Monster.generateMonster());
+  updateCharacterUI();
+  if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
+    actionElements();
+});

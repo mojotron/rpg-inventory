@@ -168,6 +168,60 @@ const CharacterFactory = function (character, password) {
     _hpCorrect();
   };
 
+  const monsterHunt = function (monster) {
+    if (getHP() === 1) {
+      alert('To low HP for hunt!');
+      return;
+    }
+    if (fullBag()) {
+      alert('Inventory fool, sell some item first!');
+      return;
+    }
+    if (getAttack() > monster.armor && getArmor() > monster.attack) {
+      //char wins
+      const loot = monster.getLoot();
+      _makeAction(
+        `You killed ${monster.emoji}${monster.type} and looted ${loot.emoji}${loot.title}!`
+      );
+      addItem(loot);
+      return;
+    }
+    if (getAttack() >= monster.armor && getArmor() <= monster.attack) {
+      const dmg = monster.attack - getArmor();
+      console.log(dmg);
+      _hitPoints = _hitPoints - dmg > 1 ? _hitPoints - dmg : 1;
+      if (getHP() > 1) {
+        const loot = monster.getLoot();
+        _makeAction(
+          `You killed ${monster.emoji}${monster.type} and looted ${loot.emoji}${loot.title}!
+          You lost ${dmg} HP points in combat!`
+        );
+        addItem(loot);
+        return;
+      } else {
+        _makeAction(
+          `${monster.emoji}${monster.type} defeated you!
+          You lost ${dmg} HP points in combat! Heal up and try again`
+        );
+        return;
+      }
+    }
+    if (getAttack() < monster.armor && getArmor() > monster.attack) {
+      //lose and lose hp no winner
+      const dmg = Math.trunc(getHP() / 2);
+      _hitPoints -= dmg;
+      _makeAction(`After long battle against ${monster.emoji}${monster.type},
+      there monster fled battleground and you lost ${dmg} HP points!`);
+      return;
+    }
+    if (getAttack() < monster.armor && getArmor() < monster.attack) {
+      _hitPoints = 1;
+      _makeAction(`You found ${monster.emoji}${monster.type} but you are to weak
+      to fight this monster, you escaped but took big hit! Rest up hero!`);
+      return;
+    }
+  };
+
   return {
     //Stats
     getName,
@@ -196,6 +250,7 @@ const CharacterFactory = function (character, password) {
     equipGear,
     sellGear,
     heal,
+    monsterHunt,
   };
 };
 const stomp = CharacterFactory('Stomp', 111);
