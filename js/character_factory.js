@@ -33,9 +33,6 @@ const CharacterFactory = function (character, password) {
     _actions.push({ date, message });
   };
   const getActions = () => [..._actions];
-  const init = () =>
-    _makeAction(`${character} is created. Welcome to the RPG-Inventory!`);
-  init();
 
   //Character inventory
   const _inventory = Array.from({ length: 9 }, () => null);
@@ -221,6 +218,13 @@ const CharacterFactory = function (character, password) {
       return;
     }
   };
+
+  const init = () =>
+    _makeAction(`${getName()} is created. Welcome to the RPG-Inventory!`);
+  addItem(dagger);
+  addItem(body1);
+  addItem(cheese);
+  init();
 
   return {
     //Stats

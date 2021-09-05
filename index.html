@@ -20,7 +20,7 @@
   <body>
     <nav>
       <p class="welcome-msg">RPG Inventory <span class="game-icon">⚔️</span></p>
-      <button>Create New</button>
+      <button class="new-char-btn">Create New</button>
       <form class="login">
         <input
           type="text"
@@ -113,22 +113,32 @@
         <p>🟤<span class="currency-copper">20</span></p>
       </div>
 
-      <!-- <div class="alert-box">
-        <button class="btn-close-alert">X</button>
-        <p>You don`t have enough gold</p>
-      </div> -->
+      <div class="alert-box hidden">
+        <button class="btn-close-alert">&Cross;</button>
+        <p class="alert-msg">You don`t have enough gold</p>
+      </div>
 
       <div class="create-new-character hidden">
         <form class="create-character-form">
           <label>Character name</label>
-          <input class="create-input" type="text" />
+          <input class="create-input name-input" type="text" />
           <label>Password</label>
-          <input class="create-input" type="text" />
+          <input
+            class="create-input password-input"
+            maxlength="3"
+            type="text"
+          />
           <label>Confirm Password</label>
-          <input class="create-input" type="text" />
+          <input
+            class="create-input password-confirm-input"
+            maxlength="3"
+            type="text"
+          />
           <button class="btn-create-char">Create</button>
         </form>
       </div>
+
+      <div class="overlay hidden"></div>
     </main>
   </body>
 </html>

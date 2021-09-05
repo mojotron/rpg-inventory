@@ -59,6 +59,7 @@ const loginCharacter = function (event) {
   if (curChar?.getPassword() === +loginCharPass.value) {
     updateCharacterUI();
     gameApp.style.opacity = '1';
+    actionElements();
   }
   clearInputs(loginCharName, loginCharPass);
 };
@@ -306,3 +307,53 @@ goHunt.addEventListener('click', function (e) {
   if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
     actionElements();
 });
+
+//new char form
+const newCharBtn = document.querySelector('.new-char-btn');
+const overlay = document.querySelector('.overlay');
+const createCharForm = document.querySelector('.create-new-character');
+
+newCharBtn.addEventListener('click', function () {
+  overlay.classList.remove('hidden');
+  createCharForm.classList.remove('hidden');
+});
+
+const createCharBtn = document.querySelector('.btn-create-char');
+const nameInput = document.querySelector('.name-input');
+const passwordInput = document.querySelector('.password-input');
+const confirmPasswordInput = document.querySelector('.password-confirm-input');
+
+createCharBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  //logout current user
+  curChar = undefined;
+  gameApp.style.opacity = '0';
+  //Check if name is taken
+  if (characters.find(char => nameInput.value === char.getName()))
+    return alert('Name taken');
+  //Check if password === confirm password
+  if (+passwordInput.value !== +confirmPasswordInput.value)
+    return alert('Password and confirm password miss match');
+  //create new character
+  const newChar = CharacterFactory(nameInput.value, +passwordInput.value);
+  //push new character to storage
+  characters.push(newChar);
+  //Clear inputs
+  overlay.classList.add('hidden');
+  createCharForm.classList.add('hidden');
+});
+const alertBox = document.querySelector('.alert-box');
+const makeAlert = function (string) {
+  document.querySelector('.alert-msg').textContent = string;
+  alertBox.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
+
+const closeAlert = function () {
+  alertBox.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
+
+document
+  .querySelector('.btn-close-alert')
+  .addEventListener('click', closeAlert);

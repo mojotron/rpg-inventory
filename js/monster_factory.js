@@ -14,7 +14,7 @@ const Monster = (function () {
     [apple, cheese],
     20
   );
-  const zombie = monsterFactory('Zombie', '🧟', 2, 3, [apple, meat], 30);
+  const zombie = monsterFactory('Zombie', '🧟', 2, 2, [apple, meat], 30);
   const ghost = monsterFactory(
     'Lost Ghost',
     '👻',
