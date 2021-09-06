@@ -58,7 +58,7 @@ const loginCharacter = function (event) {
   curChar = characters.find(char => char.getName() === loginCharName.value);
   if (curChar?.getPassword() === +loginCharPass.value) {
     updateCharacterUI();
-    gameApp.style.opacity = '1';
+    gameApp.classList.remove('hidden');
     actionElements();
   }
   clearInputs(loginCharName, loginCharPass);
@@ -246,12 +246,12 @@ sendCoinsBtn.addEventListener('click', function (e) {
     +sendCopperValue.value
   );
   if (curChar.getCoins() < coins) {
-    alert('Not enough coins');
+    makeAlert('Not enough coins');
     return;
   }
   const targetChar = characters.find(char => char.getName() === sendTo.value);
   if (!targetChar) {
-    alert('No such character');
+    makeAlert('No such character');
     return;
   }
   curChar.sendCoins(coins, targetChar);
@@ -314,7 +314,7 @@ const overlay = document.querySelector('.overlay');
 const createCharForm = document.querySelector('.create-new-character');
 
 newCharBtn.addEventListener('click', function () {
-  overlay.classList.remove('hidden');
+  // overlay.classList.remove('hidden');
   createCharForm.classList.remove('hidden');
 });
 
@@ -325,33 +325,37 @@ const confirmPasswordInput = document.querySelector('.password-confirm-input');
 
 createCharBtn.addEventListener('click', function (e) {
   e.preventDefault();
-  //logout current user
-  curChar = undefined;
-  gameApp.style.opacity = '0';
   //Check if name is taken
-  if (characters.find(char => nameInput.value === char.getName()))
-    return alert('Name taken');
+  if (characters.find(char => nameInput.value === char.getName())) {
+    makeAlert('Name taken');
+    return;
+  }
+
   //Check if password === confirm password
-  if (+passwordInput.value !== +confirmPasswordInput.value)
-    return alert('Password and confirm password miss match');
+  if (+passwordInput.value !== +confirmPasswordInput.value) {
+    makeAlert('Password and confirm password miss match');
+    return;
+  }
   //create new character
   const newChar = CharacterFactory(nameInput.value, +passwordInput.value);
   //push new character to storage
   characters.push(newChar);
   //Clear inputs
-  overlay.classList.add('hidden');
+  // overlay.classList.add('hidden');
   createCharForm.classList.add('hidden');
+  curChar = undefined;
+  gameApp.classList.add('hidden');
 });
 const alertBox = document.querySelector('.alert-box');
 const makeAlert = function (string) {
   document.querySelector('.alert-msg').textContent = string;
   alertBox.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+  // overlay.classList.remove('hidden');
 };
 
 const closeAlert = function () {
   alertBox.classList.add('hidden');
-  overlay.classList.add('hidden');
+  // overlay.classList.add('hidden');
 };
 
 document
