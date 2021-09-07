@@ -88,7 +88,7 @@ const actionElements = function () {
     newAction.classList.add('action');
     if (i % 2 === 0)
       newAction.style.background =
-        'linear-gradient(-90deg, rgb(247, 115, 54), rgb(216, 202, 192)';
+        'linear-gradient(90deg, rgb(195, 201, 200), #e89c77';
     newAction.innerHTML = actionHTML(action, i);
     mainDisplay.insertAdjacentElement('afterbegin', newAction);
   });
@@ -160,8 +160,8 @@ body.addEventListener('click', function (e) {
 const createOptionBox = function (x, y) {
   const box = document.createElement('div');
   box.classList.add('options-box');
-  box.style.top = `${y}px`;
-  box.style.left = `${x}px`;
+  box.style.top = `${y - 175}px`;
+  box.style.left = `${x - 50}px`;
   return box;
 };
 //MAKE INVENTORY OPTION BOX ELEMENT
