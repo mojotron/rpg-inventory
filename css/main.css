@@ -26,7 +26,7 @@ nav {
   font-size: 2.5rem;
 }
 .welcome-msg {
-  font-family: 'Caesar Dressing';
+  font-family: 'Caesar Dressing', sans-serif;
 }
 /*form inputs*/
 .login-input,
@@ -45,6 +45,7 @@ nav {
   z-index: 11;
   position: relative;
   top: 9px;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 
 .login-input:focus {
@@ -101,6 +102,7 @@ nav {
   padding: 0.3rem;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .character-hp-armor {
   display: flex;
@@ -115,6 +117,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .character-gear-slots,
 .character-inventory-slots {
@@ -148,6 +151,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .character-gear p,
 .character-inventory p {
@@ -175,6 +179,7 @@ nav {
   align-items: center;
   font-size: 1.4rem;
   padding: 0.3rem;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .character-currency p {
   margin-right: 2rem;
@@ -225,7 +230,7 @@ nav {
   font-family: inherit;
   font-size: 1.3rem;
   color: var(--dark-main-color);
-  border: 3px solid var(--dark-main-color);
+  border: 3px solid var(--blue-color);
   padding: 0.3rem 0.5rem;
   border-radius: 3px;
   background: linear-gradient(90deg, rgb(123, 134, 134), rgb(160, 248, 248));
@@ -316,6 +321,7 @@ nav {
   font-size: 1.5rem;
   position: relative;
   top: 3px;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .send-coins {
   position: relative;
@@ -358,6 +364,7 @@ input.send-coins-to {
   color: var(--dark-main-color);
   font-size: 1.5rem;
   padding-left: 1rem;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .monster {
   display: flex;
@@ -381,20 +388,55 @@ input.send-coins-to {
   visibility: hidden;
 }
 .create-new-character {
-  background-color: ivory;
+  background-color: var(--dark-main-color);
+  color: var(--light-main-color);
   width: 25rem;
   height: 15rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--blue-color);
 }
 .create-character-form {
   height: 100%;
+  width: 75%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: space-around;
+}
+.create-character-form label {
+  font-size: 1.3rem;
+  text-align: center;
+}
+.create-input {
+  font-size: 1.2rem;
+  border: none;
+  font-family: inherit;
+  border-radius: 3px;
+  color: var(--dark-main-color);
+}
+.btn-create-char {
+  margin: 0 auto;
+  width: 7rem;
+  border: none;
+  font-family: 'Caesar Dressing';
+  color: var(--dark-main-color);
+  font-size: 1.3rem;
+  padding: 0.3rem 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  transition: background-color 1s;
+  cursor: pointer;
+}
+.btn-create-char:hover {
+  background-color: var(--blue-color);
+  color: var(--light-main-color);
 }
 
 .overlay {
@@ -438,16 +480,16 @@ input.send-coins-to {
 .btn-go-hunt {
   border: none;
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 800;
   position: relative;
   border-radius: 10px;
   left: 10rem;
-  top: 5px;
   padding: 0.3rem 1.3rem;
   background: linear-gradient(90deg, var(--blue-color), var(--dark-main-color));
   color: var(--light-main-color);
   cursor: pointer;
+  font-family: 'Caesar Dressing', sans-serif;
 }
 .btn-go-hunt:hover {
   background: linear-gradient(
@@ -455,4 +497,11 @@ input.send-coins-to {
     var(--blue-color),
     var(--dark-main-color)
   );
+}
+.action-index {
+  font-family: 'Caesar Dressing', sans-serif;
+  color: var(--blue-color);
+}
+.action-date {
+  color: var(--blue-color);
 }

@@ -12,16 +12,16 @@ const Monster = (function () {
     1,
     1,
     [apple, cheese],
-    20
+    30
   );
-  const zombie = monsterFactory('Zombie', '🧟', 2, 2, [apple, meat], 30);
+  const zombie = monsterFactory('Zombie', '🧟', 2, 2, [apple, meat], 40);
   const ghost = monsterFactory(
     'Lost Ghost',
     '👻',
     3,
     2,
     [apple, cheese, meat],
-    40
+    50
   );
   const spider = monsterFactory(
     'Giant Spider',
