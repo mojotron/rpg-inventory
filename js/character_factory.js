@@ -257,25 +257,24 @@ const CharacterFactory = function (character, password) {
     monsterHunt,
   };
 };
-const stomp = CharacterFactory('Stomp', 111);
+const stomp = CharacterFactory('Stomp', '111');
 stomp.addItem(sword);
 stomp.addItem(apple);
+stomp.addItem(trident);
 stomp.addGear('head', head3);
 stomp.addGear('body', body3);
 stomp.addGear('legs', legs3);
 stomp.addGear('rightArm', sword);
-const draw = CharacterFactory('Draw', 222);
+const draw = CharacterFactory('Draw', '222');
 draw.addItem(bow);
 draw.addItem(cheese);
 draw.addItem(meat);
 draw.addGear('body', body2);
 draw.addGear('leftArm', dagger);
-const slick = CharacterFactory('Slick', 333);
+const slick = CharacterFactory('Slick', '333');
 slick.addItem(head1);
 slick.addItem(body1);
 slick.addItem(legs1);
 slick.addItem(sword);
 slick.addItem(sword);
 slick.addItem(axe);
-
-const characters = [stomp, draw, slick];

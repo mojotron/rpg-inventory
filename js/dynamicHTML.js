@@ -141,4 +141,9 @@ const getLootHtml = function (loot) {
   return html;
 };
 
-const createCharFormHtml = function () {};
+const clearInputs = function (...inputs) {
+  inputs.forEach(input => {
+    input.value = '';
+    input.blur();
+  });
+};

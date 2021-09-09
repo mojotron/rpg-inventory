@@ -42,7 +42,7 @@ nav {
 }
 .new-char-btn {
   height: 2.5rem;
-  z-index: 11;
+  z-index: 5;
   position: relative;
   top: 9px;
   font-family: 'Caesar Dressing', sans-serif;
@@ -164,7 +164,6 @@ nav {
 .gear-left-arm,
 .gear-right-arm,
 .inventory-slot {
-  /* border: 2px solid var(--dark-main-color); */
   background: linear-gradient(110deg, rgb(250, 248, 235), rgb(252, 219, 113));
   display: flex;
   justify-content: center;
@@ -398,9 +397,11 @@ input.send-coins-to {
   transform: translate(-50%, -50%);
   padding: 2rem 0;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
   border-radius: 10px;
   border: 1px solid var(--blue-color);
+  z-index: 7;
 }
 .create-character-form {
   height: 100%;
@@ -440,12 +441,12 @@ input.send-coins-to {
 }
 
 .overlay {
-  z-index: 5;
+  z-index: 6;
   position: absolute;
   top: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(37, 36, 36, 0.904);
+  background-color: rgba(37, 36, 36, 0.9);
   filter: blur(10rem);
 }
 
@@ -466,7 +467,12 @@ input.send-coins-to {
   font-size: 1.5rem;
   z-index: 20;
 }
-.btn-close-alert {
+.alert-msg {
+  color: var(--blue-color);
+}
+.btn-close-alert,
+.btn-close-form {
+  display: inline-block;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -476,6 +482,7 @@ input.send-coins-to {
   height: 1rem;
   width: 1rem;
   font-size: 1.2rem;
+  cursor: pointer;
 }
 .btn-go-hunt {
   border: none;

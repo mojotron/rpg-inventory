@@ -1,5 +1,6 @@
 'use strict';
 //Game engin
+const characters = [stomp, draw, slick];
 let curChar = stomp; //TODO set to undefined when finish
 //General Selectors
 const body = document.querySelector('body');
@@ -11,13 +12,6 @@ const mainDisplay = document.querySelector('.game-actions-display');
 const inventoryContainer = document.querySelector('.character-inventory-slots');
 const equipmentContainer = document.querySelector('.character-gear-slots');
 const hpTimer = document.querySelector('.hp-timer');
-
-const clearInputs = function (...inputs) {
-  inputs.forEach(input => {
-    input.value = '';
-    input.blur();
-  });
-};
 
 //UPDATE CHARACTER UI
 const updateCharacterStats = function () {
@@ -56,7 +50,7 @@ updateCharacterUI(); //TODO remove when finish
 const loginCharacter = function (event) {
   event.preventDefault();
   curChar = characters.find(char => char.getName() === loginCharName.value);
-  if (curChar?.getPassword() === +loginCharPass.value) {
+  if (curChar?.getPassword() === loginCharPass.value) {
     updateCharacterUI();
     gameApp.classList.remove('hidden');
     actionElements();
@@ -312,9 +306,9 @@ goHunt.addEventListener('click', function (e) {
 const newCharBtn = document.querySelector('.new-char-btn');
 const overlay = document.querySelector('.overlay');
 const createCharForm = document.querySelector('.create-new-character');
-
+const closeFormBtn = document.querySelector('.btn-close-form');
 newCharBtn.addEventListener('click', function () {
-  // overlay.classList.remove('hidden');
+  overlay.classList.remove('hidden');
   createCharForm.classList.remove('hidden');
 });
 
@@ -332,32 +326,45 @@ createCharBtn.addEventListener('click', function (e) {
   }
 
   //Check if password === confirm password
-  if (+passwordInput.value !== +confirmPasswordInput.value) {
+  if (passwordInput.value !== confirmPasswordInput.value) {
     makeAlert('Password and confirm password miss match');
     return;
   }
   //create new character
-  const newChar = CharacterFactory(nameInput.value, +passwordInput.value);
+  const newChar = CharacterFactory(nameInput.value, passwordInput.value);
   //push new character to storage
   characters.push(newChar);
   //Clear inputs
-  // overlay.classList.add('hidden');
+  clearInputs(nameInput, passwordInput, confirmPasswordInput);
+  overlay.classList.add('hidden');
   createCharForm.classList.add('hidden');
   curChar = undefined;
   gameApp.classList.add('hidden');
+});
+
+closeFormBtn.addEventListener('click', function () {
+  overlay.classList.add('hidden');
+  createCharForm.classList.add('hidden');
+  clearInputs(nameInput, passwordInput, confirmPasswordInput);
 });
 const alertBox = document.querySelector('.alert-box');
 const makeAlert = function (string) {
   document.querySelector('.alert-msg').textContent = string;
   alertBox.classList.remove('hidden');
-  // overlay.classList.remove('hidden');
+  overlay.classList.remove('hidden');
 };
 
 const closeAlert = function () {
   alertBox.classList.add('hidden');
-  // overlay.classList.add('hidden');
+  if (!createCharForm.classList.contains('hidden')) return;
+  overlay.classList.add('hidden');
 };
 
 document
   .querySelector('.btn-close-alert')
   .addEventListener('click', closeAlert);
+
+const GameEngin = function () {
+  const init = function () {};
+  init();
+};
