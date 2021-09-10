@@ -278,3 +278,4 @@ slick.addItem(legs1);
 slick.addItem(sword);
 slick.addItem(sword);
 slick.addItem(axe);
+const characters = [stomp, draw, slick];
