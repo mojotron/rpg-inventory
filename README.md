@@ -1,5 +1,9 @@
 # RPG-Inventory
 
+Goal of this project was to implement all my learning with little bit defcual project. Idea for d this project is result from going through Jonas S tutoraial.
+There is used for learning bankist app. I didnt want to copy whole project but to make it with a liitle twist.
+For best user experience please use this application on desktop browser.
+
 event.clientX event.clietY
 transition
 event delegation

@@ -11,16 +11,34 @@ const Monster = (function () {
     '💀',
     1,
     1,
-    [apple, cheese],
+    [
+      Armory.shop.apple,
+      Armory.shop.cheese,
+      Armory.shop.meat,
+      Armory.special.socks,
+    ],
     30
   );
-  const zombie = monsterFactory('Zombie', '🧟', 2, 2, [apple, meat], 40);
+  const zombie = monsterFactory(
+    'Zombie',
+    '🧟',
+    2,
+    2,
+    [Armory.shop.apple, Armory.shop.meat, Armory.special.socks],
+    40
+  );
   const ghost = monsterFactory(
     'Lost Ghost',
     '👻',
     3,
     2,
-    [apple, cheese, meat],
+    [
+      Armory.shop.apple,
+      Armory.shop.cheese,
+      Armory.shop.meat,
+      Armory.special.socks,
+      Armory.shop.dagger,
+    ],
     50
   );
   const spider = monsterFactory(
@@ -28,7 +46,15 @@ const Monster = (function () {
     '🕷️',
     4,
     5,
-    [apple, cheese, meat, dagger],
+    [
+      Armory.shop.apple,
+      Armory.shop.cheese,
+      Armory.shop.meat,
+      Armory.shop.dagger,
+      Armory.special.socks,
+      Armory.special.kimono,
+      Armory.shop.sword,
+    ],
     60
   );
   const bear = monsterFactory(
@@ -36,7 +62,18 @@ const Monster = (function () {
     '🧸',
     5,
     9,
-    [dagger, head1, body1, legs1, mace, potion],
+    [
+      Armory.shop.dagger,
+      Armory.shop.head1,
+      Armory.shop.body1,
+      Armory.shop.legs1,
+      Armory.shop.mace,
+      Armory.shop.potion,
+      Armory.special.legion,
+      Armory.special.hammer,
+      Armory.special.bow,
+      Armory.special.kimono,
+    ],
     70
   );
   const dino = monsterFactory(
@@ -44,7 +81,18 @@ const Monster = (function () {
     '🦖',
     10,
     6,
-    [dagger, head1, body1, legs1, mace, potion, sword],
+    [
+      Armory.shop.dagger,
+      Armory.shop.head2,
+      Armory.shop.body2,
+      Armory.shop.legs3,
+      Armory.shop.mace,
+      Armory.shop.potion,
+      Armory.shop.sword,
+      Armory.special.legion,
+      Armory.special.axe,
+      Armory.special.shield,
+    ],
     75
   );
   const goblin = monsterFactory(
@@ -52,7 +100,16 @@ const Monster = (function () {
     '👺',
     7,
     8,
-    [mace, sword, potion, head2, body2, legs2],
+    [
+      Armory.shop.potion,
+      Armory.special.head3,
+      Armory.special.body3,
+      Armory.special.legs3,
+      Armory.special.bow,
+      Armory.special.axe,
+      Armory.special.hammer,
+      Armory.special.pickAxe,
+    ],
     85
   );
   const ogre = monsterFactory(
@@ -60,7 +117,15 @@ const Monster = (function () {
     '👹',
     8,
     10,
-    [mace, sword, potion, head2, body2, legs2, shield],
+    [
+      Armory.special.head3,
+      Armory.special.body3,
+      Armory.special.legs3,
+      Armory.special.shield,
+      Armory.special.legion,
+      Armory.special.hammer,
+      Armory.special.pickAxe,
+    ],
     90
   );
   const golem = monsterFactory(
@@ -68,7 +133,18 @@ const Monster = (function () {
     '👾',
     10,
     10,
-    [head3, body3, legs3, potion, sword],
+    [
+      Armory.special.head3,
+      Armory.special.body3,
+      Armory.special.legs3,
+      Armory.shop.potion,
+      Armory.shop.sword,
+      Armory.special.socks,
+      Armory.special.crown,
+      Armory.special.legion,
+      Armory.special.hammer,
+      Armory.special.axe,
+    ],
     95
   );
   const mage = monsterFactory(
@@ -76,7 +152,16 @@ const Monster = (function () {
     '🧙‍♂️',
     15,
     5,
-    [head3, body3, legs3, potion, shield],
+    [
+      Armory.special.crown,
+      Armory.special.pickAxe,
+      Armory.special.trident,
+      Armory.special.axe,
+      Armory.special.bow,
+      Armory.special.shield,
+      Armory.special.legion,
+      Armory.special.hammer,
+    ],
     98
   );
   const dragon = monsterFactory(
@@ -84,27 +169,17 @@ const Monster = (function () {
     '🐉',
     15,
     15,
-    [head3, body3, legs3, potion, sword, axe, bow, shield],
+    [Armory.special.crown, Armory.special.trident],
     100
   );
-
+  //prettier-ignore
   const monsters = [
-    skelton,
-    zombie,
-    ghost,
-    spider,
-    bear,
-    dino,
-    goblin,
-    ogre,
-    golem,
-    mage,
-    dragon,
+    skelton, zombie, ghost, spider, bear,
+    dino, goblin,ogre,golem,mage,dragon,
   ];
 
   const generateMonster = function () {
     const rarity = Math.floor(Math.random() * 100) + 1;
-    console.log(rarity);
     return monsters.find(monster => rarity <= monster.rarity);
   };
 

@@ -221,11 +221,13 @@ const CharacterFactory = function (character, password) {
 
   const init = () =>
     _makeAction(`${getName()} is created. Welcome to the RPG-Inventory!`);
-  addItem(dagger);
-  addItem(body1);
-  addItem(cheese);
+  addItem(Armory.shop.dagger);
+  addItem(Armory.shop.body1);
+  addItem(Armory.shop.cheese);
   init();
-
+  //Majority of this functions should be privet, but this is simple app
+  //and there is no database for storing character. Lot of methods are public so I can
+  //make sample users.
   return {
     //Stats
     getName,
@@ -258,24 +260,24 @@ const CharacterFactory = function (character, password) {
   };
 };
 const stomp = CharacterFactory('Stomp', '111');
-stomp.addItem(sword);
-stomp.addItem(apple);
-stomp.addItem(trident);
-stomp.addGear('head', head3);
-stomp.addGear('body', body3);
-stomp.addGear('legs', legs3);
-stomp.addGear('rightArm', sword);
+stomp.addItem(Armory.shop.sword);
+stomp.addItem(Armory.shop.apple);
+stomp.addItem(Armory.special.trident);
+stomp.addGear('head', Armory.special.head3);
+stomp.addGear('body', Armory.special.body3);
+stomp.addGear('legs', Armory.special.legs3);
+stomp.addGear('rightArm', Armory.shop.sword);
 const draw = CharacterFactory('Draw', '222');
-draw.addItem(bow);
-draw.addItem(cheese);
-draw.addItem(meat);
-draw.addGear('body', body2);
-draw.addGear('leftArm', dagger);
+draw.addItem(Armory.special.bow);
+draw.addItem(Armory.shop.cheese);
+draw.addItem(Armory.shop.meat);
+draw.addGear('body', Armory.shop.body2);
+draw.addGear('leftArm', Armory.shop.dagger);
 const slick = CharacterFactory('Slick', '333');
-slick.addItem(head1);
-slick.addItem(body1);
-slick.addItem(legs1);
-slick.addItem(sword);
-slick.addItem(sword);
-slick.addItem(axe);
+slick.addItem(Armory.shop.head1);
+slick.addItem(Armory.shop.body1);
+slick.addItem(Armory.shop.legs1);
+slick.addItem(Armory.shop.sword);
+slick.addItem(Armory.shop.sword);
+slick.addItem(Armory.special.axe);
 const characters = [stomp, draw, slick];

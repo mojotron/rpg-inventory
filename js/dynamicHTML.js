@@ -48,10 +48,10 @@ const infoItemHtml = function (item) {
     </div>`;
 };
 
-const shopItemHTML = function (item, index) {
+const shopItemHTML = function (item, name) {
   return (
     infoItemHtml(item) +
-    `<button class="btn-buy-item" data-item-position="${index}">Buy Item</button>`
+    `<button class="btn-buy-item" data-item-name="${name}">Buy Item</button>`
   );
 };
 

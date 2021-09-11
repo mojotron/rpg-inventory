@@ -81,17 +81,17 @@ const GameEngin = function () {
 
   const shopItemElements = function () {
     mainDisplay.innerHTML = '';
-    items.forEach((item, i) => {
+    for (const [key, obj] of Object.entries(Armory.shop)) {
       const shopItem = document.createElement('div');
       shopItem.classList.add('item');
-      shopItem.innerHTML = shopItemHTML(item, i);
+      shopItem.innerHTML = shopItemHTML(obj, key);
       mainDisplay.insertAdjacentElement('beforeend', shopItem);
-    });
+    }
   };
 
   const buyItemFromShop = function (event) {
     if (!event.target.classList.contains('btn-buy-item')) return;
-    const item = items[event.target.dataset.itemPosition];
+    const item = Armory.shop[event.target.dataset.itemName];
     curChar.buyItem(item);
     updateCharacterUI();
   };
@@ -186,14 +186,14 @@ const GameEngin = function () {
     return box;
   };
   //MAKE INVENTORY OPTION BOX ELEMENT
-  const itemOperationInventory = function (e) {
-    if (!e.target.classList.contains('inventory-slot')) return;
-    if (e.target.textContent === '') return;
+  const itemOperationInventory = function (event) {
+    if (!event.target.classList.contains('inventory-slot')) return;
+    if (event.target.textContent === '') return;
 
-    const spotIndex = e.target.dataset.slot;
+    const spotIndex = event.target.dataset.slot;
     const item = curChar.getInventory()[spotIndex];
     //Create option box element to current mouse position
-    const optionsBox = createOptionBox(e.clientX, e.clientY);
+    const optionsBox = createOptionBox(event.clientX, event.clientY);
     optionsBox.innerHTML =
       generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
     body.appendChild(optionsBox);
@@ -222,14 +222,14 @@ const GameEngin = function () {
   };
 
   //MAKE EQUIPMENT OPTION BOX ELEMENT
-  const itemOperationEquipment = function (e) {
-    if (!e.target.classList.contains('gear-slot')) return;
-    if (e.target.textContent === '') return;
+  const itemOperationEquipment = function (event) {
+    if (!event.target.classList.contains('gear-slot')) return;
+    if (event.target.textContent === '') return;
 
-    const slot = e.target.dataset.gear;
+    const slot = event.target.dataset.gear;
     const item = curChar.getGear(slot);
     //Create option box element to current mouse position
-    const optionsBox = createOptionBox(e.clientX, e.clientY);
+    const optionsBox = createOptionBox(event.clientX, event.clientY);
     optionsBox.innerHTML =
       generalOptionBoxHTML(item) + equipmentOptionsBoxHtml(item);
     body.appendChild(optionsBox);
@@ -251,8 +251,8 @@ const GameEngin = function () {
       .addEventListener('click', gearRemoveBtnHandler.bind(this, slot));
   };
 
-  const sendCoinsHandler = function (e) {
-    e.preventDefault();
+  const sendCoinsHandler = function (event) {
+    event.preventDefault();
     const coins = coinsToCopper(
       +sendGoldValue.value,
       +sendSilverValue.value,
@@ -277,13 +277,13 @@ const GameEngin = function () {
       ele.classList.remove(cssClass);
     });
   };
-  const switchTabHandler = function (e) {
-    if (!e.target.classList.contains('btn-tab')) return;
+  const switchTabHandler = function (event) {
+    if (!event.target.classList.contains('btn-tab')) return;
     removeCssClass('.btn-tab', 'btn-tab-active');
-    e.target.classList.add('btn-tab-active');
-    if (e.target.dataset.tab === 'actions') actionElements();
-    if (e.target.dataset.tab === 'shop') shopItemElements();
-    if (e.target.dataset.tab === 'monsterpedia') monsterpediaElements();
+    event.target.classList.add('btn-tab-active');
+    if (event.target.dataset.tab === 'actions') actionElements();
+    if (event.target.dataset.tab === 'shop') shopItemElements();
+    if (event.target.dataset.tab === 'monsterpedia') monsterpediaElements();
   };
   //HP REGENERATION
   const startHPRegeneration = function (seconds) {
@@ -305,8 +305,8 @@ const GameEngin = function () {
     const timer = setInterval(tick, 1000);
     return timer;
   };
-  const monsterHuntHandler = function (e) {
-    e.preventDefault();
+  const monsterHuntHandler = function (event) {
+    event.preventDefault();
     curChar.monsterHunt(Monster.generateMonster());
     updateCharacterUI();
     if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
@@ -318,8 +318,8 @@ const GameEngin = function () {
     createCharForm.classList.remove('hidden');
   };
 
-  const creatCharHandler = function (e) {
-    e.preventDefault();
+  const creatCharHandler = function (event) {
+    event.preventDefault();
     if (characters.find(char => nameInput.value === char.getName())) {
       makeAlert('Name taken');
       return;
