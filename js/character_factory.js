@@ -25,10 +25,21 @@ const CharacterFactory = function (character, password) {
   const sendCoins = function (coins, character) {
     _loseCoins(coins);
     character.addCoins(coins);
+    makeAction(`You gave ${_addCoinsDisplay(coins)} to ${character.getName()}`);
+    character.makeAction(
+      `${getName()} have sent you ${_addCoinsDisplay(coins)}`
+    );
   };
   //Character game log
   const _actions = [];
-  const _makeAction = function (message) {
+  const _addCoinsDisplay = function (value) {
+    const [gold, silver, copper] = copperToCoins(value);
+    return `${gold ? `🟡 ${gold} ` : ''} ${silver ? `⚪  ${silver} ` : ''}${
+      copper ? `🟤  ${copper} ` : ''
+    } `;
+  };
+
+  const makeAction = function (message) {
     const date = new Date().toISOString();
     _actions.push({ date, message });
   };
@@ -51,28 +62,31 @@ const CharacterFactory = function (character, password) {
   };
   const buyItem = function (item) {
     if (item.value > getCoins()) {
-      alert('Not enough coins');
+      makeAlert('Not enough coins');
       return;
     }
     if (fullBag()) {
-      alert('Your bag is full');
+      makeAlert('Your bag is full');
       return;
     }
     addItem(item); //item to inventory
     _loseCoins(item.value); //decrement gold
-    _makeAction(`You bought ${item.emoji} ${item.title}.`);
+    makeAction(`You bought ${item.emoji} ${item.title}.`);
   };
 
   const sellItem = function (spot) {
     const item = removeItem(spot);
     _earnCoins(item.value);
+    makeAction(
+      `Sold ${item.emoji}${item.title} for ${_addCoinsDisplay(item.value)}`
+    );
   };
 
   const eatFood = function (spot) {
     const item = removeItem(spot);
     _hitPoints += item.bonus.heal;
     _hpCorrect();
-    _makeAction(
+    makeAction(
       `You consumed ${item.emoji} ${item.title} for additional ${item.bonus.heal} HP.`
     );
   };
@@ -136,7 +150,7 @@ const CharacterFactory = function (character, password) {
       addGear('rightArm', item);
       _removeBonus(item);
     }
-    _makeAction(`You equipped ${item.emoji} ${item.title}`);
+    makeAction(`You equipped ${item.emoji} ${item.title}`);
   };
 
   const removeGear = function (slot) {
@@ -149,7 +163,7 @@ const CharacterFactory = function (character, password) {
       _equipment[slot] = null;
     }
     _removeBonus(item);
-    _makeAction(`You removed ${item.emoji} ${item.title} from equipment`);
+    makeAction(`You removed ${item.emoji} ${item.title} from equipment`);
     _hpCorrect();
     return item;
   };
@@ -157,7 +171,9 @@ const CharacterFactory = function (character, password) {
   const sellGear = function (slot) {
     const item = removeGear(slot);
     _earnCoins(item.value);
-    _makeAction(`You sold ${item.emoji} ${item.title}`);
+    makeAction(
+      `You sold ${item.emoji} ${item.title} for ${_addCoinsDisplay(item.value)}`
+    );
   };
 
   const heal = function () {
@@ -167,17 +183,17 @@ const CharacterFactory = function (character, password) {
 
   const monsterHunt = function (monster) {
     if (getHP() === 1) {
-      alert('To low HP for hunt!');
+      makeAlert('To low HP for hunt!');
       return;
     }
     if (fullBag()) {
-      alert('Inventory fool, sell some item first!');
+      makeAlert('Inventory fool, sell some item first!');
       return;
     }
     if (getAttack() > monster.armor && getArmor() > monster.attack) {
       //char wins
       const loot = monster.getLoot();
-      _makeAction(
+      makeAction(
         `You killed ${monster.emoji}${monster.type} and looted ${loot.emoji}${loot.title}!`
       );
       addItem(loot);
@@ -189,14 +205,14 @@ const CharacterFactory = function (character, password) {
       _hitPoints = _hitPoints - dmg > 1 ? _hitPoints - dmg : 1;
       if (getHP() > 1) {
         const loot = monster.getLoot();
-        _makeAction(
+        makeAction(
           `You killed ${monster.emoji}${monster.type} and looted ${loot.emoji}${loot.title}!
           You lost ${dmg} HP points in combat!`
         );
         addItem(loot);
         return;
       } else {
-        _makeAction(
+        makeAction(
           `${monster.emoji}${monster.type} defeated you!
           You lost ${dmg} HP points in combat! Heal up and try again`
         );
@@ -207,20 +223,20 @@ const CharacterFactory = function (character, password) {
       //lose and lose hp no winner
       const dmg = Math.trunc(getHP() / 2);
       _hitPoints -= dmg;
-      _makeAction(`After long battle against ${monster.emoji}${monster.type},
+      makeAction(`After long battle against ${monster.emoji}${monster.type},
       there monster fled battleground and you lost ${dmg} HP points!`);
       return;
     }
     if (getAttack() < monster.armor && getArmor() < monster.attack) {
       _hitPoints = 1;
-      _makeAction(`You found ${monster.emoji}${monster.type} but you are to weak
+      makeAction(`You found ${monster.emoji}${monster.type} but you are to weak
       to fight this monster, you escaped but took big hit! Rest up hero!`);
       return;
     }
   };
 
   const init = () =>
-    _makeAction(`${getName()} is created. Welcome to the RPG-Inventory!`);
+    makeAction(`${getName()} is created. Welcome to the RPG-Inventory!`);
   addItem(Armory.shop.dagger);
   addItem(Armory.shop.body1);
   addItem(Armory.shop.cheese);
@@ -240,6 +256,7 @@ const CharacterFactory = function (character, password) {
     addCoins,
     sendCoins,
     //Actions
+    makeAction,
     getActions,
     //Inventory
     addItem,

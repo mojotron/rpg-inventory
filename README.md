@@ -1,13 +1,10 @@
 # RPG-Inventory
 
+This project is inspired by awesome tutorial Complete Javascript Course by Jonas Schmedtmann and his version of Pig game. To challenge myself, instead of recreating whole project, i added a twist with 20 sided die and couple of more rules in game logic. Here is reference to original pig game. Goal of this project is reinforce my knowledge at the current learning path. I tried to use all tricks I learned in my other projects, to nail them down in brain.
+
 Goal of this project was to implement all my learning with little bit defcual project. Idea for d this project is result from going through Jonas S tutoraial.
 There is used for learning bankist app. I didnt want to copy whole project but to make it with a liitle twist.
 For best user experience please use this application on desktop browser.
-
-event.clientX event.clietY
-transition
-event delegation
-timers
 
 ## How To Play?
 
@@ -35,8 +32,22 @@ You can send coins and gear between characters.
 
 ## What have I learned?
 
+- Creating DOM elements at mouse click position using MouseEvent.clientX and MouseEvent.clientY properties.
+- Event delegation with event capturing and bubbling.
+- Matching strategy for event delegation pattens.
+- Timnig events - creating, clearing, calling.
+- Tick function to start timer imidiatly not after 1 second.
+- Intenatonalization API.
+- Encapsulation -
+- Enncapsulation of event listeners creating init function.
+- Css transition effects.
+- Difficulties of implementig game logic - interaction between different game object. Importance of good planning and dividing task.
+- Balancing game - making natural curve of caracter progresin through game.
+
 ## Biggest roadblocks?
 
 By far biggest problem was creating item object.
 Encapsulate facories.
 Local Storage.
+Coin function.
+Balancig caharacter, item and monster.

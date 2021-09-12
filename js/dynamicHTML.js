@@ -112,13 +112,6 @@ const equipmentOptionsBoxHtml = function (item) {
   return `<button class="btn-character-option" data-option="remove">Remove</button>`;
 };
 
-const alertMsg = function (msg) {
-  const alert = document.createElement('div');
-  const html = `
-  
-  `;
-};
-
 const monsterHtml = function (monster) {
   return `
     <div class="monster-info">
@@ -146,4 +139,16 @@ const clearInputs = function (...inputs) {
     input.value = '';
     input.blur();
   });
+};
+
+const makeAlert = function (string) {
+  document.querySelector('.alert-msg').textContent = string;
+  alertBox.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
+
+const closeAlert = function () {
+  alertBox.classList.add('hidden');
+  if (!createCharForm.classList.contains('hidden')) return;
+  overlay.classList.add('hidden');
 };

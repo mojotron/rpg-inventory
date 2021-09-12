@@ -27,7 +27,7 @@ const sendCoinsBtn = document.querySelector('.btn-send-coins');
 const tabs = document.querySelector('.game-options-selector');
 //////////////////////////////////////////////////////////////////
 const GameEngin = function () {
-  let curChar = stomp;
+  let curChar;
   let hpRegeneration;
   //UPDATE CHARACTER UI
   const updateCharacterStats = function () {
@@ -68,7 +68,13 @@ const GameEngin = function () {
 
   const loginCharacter = function (event) {
     event.preventDefault();
+    //If you try relog character , this stops resetting timer
+    if (curChar?.getName() === loginCharName.value) {
+      clearInputs(loginCharName, loginCharPass);
+      return;
+    }
     curChar = characters.find(char => char.getName() === loginCharName.value);
+    if (!curChar) return;
     if (curChar?.getPassword() === loginCharPass.value) {
       updateCharacterUI();
       gameApp.classList.remove('hidden');
@@ -118,6 +124,15 @@ const GameEngin = function () {
       mainDisplay.insertAdjacentElement('beforeend', newMonster);
     });
   };
+
+  const sendItemActions = function (item, targetChar) {
+    curChar.makeAction(
+      `You gave ${item.emoji}${item.title} to ${targetChar.getName()}`
+    );
+    targetChar.makeAction(
+      `You got ${item.emoji}${item.title} from ${curChar.getName()}`
+    );
+  };
   //Inventory box options event handlers
   const invSellBtnHandler = function (spot) {
     curChar.sellItem(spot);
@@ -128,9 +143,17 @@ const GameEngin = function () {
     const input = document.querySelector('.character-target-name');
     if (input.value === curChar.getName()) return;
     const targetChar = characters.find(char => char.getName() === input.value);
-    if (!targetChar) return;
-    if (targetChar.fullBag()) return;
-    targetChar.addItem(curChar.removeItem(spot));
+    if (!targetChar) {
+      makeAlert(`No character with name of ${input.value}`);
+      return;
+    }
+    if (targetChar.fullBag()) {
+      makeAlert(`${targetChar.getName()} have full bag!`);
+      return;
+    }
+    const item = curChar.removeItem(spot);
+    targetChar.addItem(item, input.value);
+    sendItemActions(item, targetChar);
     removeBoxAndUpdateUI();
   };
 
@@ -155,9 +178,17 @@ const GameEngin = function () {
     const input = document.querySelector('.character-target-name');
     if (input.value === curChar.getName()) return;
     const targetChar = characters.find(char => char.getName() === input.value);
-    if (!targetChar) return;
-    if (targetChar.fullBag()) return;
-    targetChar.addItem(curChar.removeGear(slot));
+    if (!targetChar) {
+      makeAlert(`No character with name of ${input.value}`);
+      return;
+    }
+    if (targetChar.fullBag()) {
+      makeAlert(`${targetChar.getName()} have full bag!`);
+      return;
+    }
+    const item = curChar.removeGear(slot);
+    targetChar.addItem(item);
+    sendItemActions(item, targetChar);
     removeBoxAndUpdateUI();
   };
 
@@ -220,7 +251,6 @@ const GameEngin = function () {
         .addEventListener('click', invEquipBtnHandler.bind(this, spotIndex));
     }
   };
-
   //MAKE EQUIPMENT OPTION BOX ELEMENT
   const itemOperationEquipment = function (event) {
     if (!event.target.classList.contains('gear-slot')) return;
@@ -343,20 +373,7 @@ const GameEngin = function () {
     clearInputs(nameInput, passwordInput, confirmPasswordInput);
   };
 
-  const makeAlert = function (string) {
-    document.querySelector('.alert-msg').textContent = string;
-    alertBox.classList.remove('hidden');
-    overlay.classList.remove('hidden');
-  };
-
-  const closeAlert = function () {
-    alertBox.classList.add('hidden');
-    if (!createCharForm.classList.contains('hidden')) return;
-    overlay.classList.add('hidden');
-  };
-
   const init = function () {
-    actionElements();
     loginBtn.addEventListener('click', loginCharacter);
     mainDisplay.addEventListener('click', buyItemFromShop);
     inventoryContainer.addEventListener('dblclick', itemOperationInventory);

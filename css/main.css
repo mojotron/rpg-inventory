@@ -457,21 +457,20 @@ input.send-coins-to {
   transform: translate(-50%, -50%);
   height: 10rem;
   width: 30rem;
-  background-color: var(--light-main-color);
-  border: 5px solid rgb(199, 55, 55);
+  background-color: var(--dark-main-color);
+  border: 7px solid var(--blue-color);
+  color: var(--light-main-color);
   border-radius: 1rem;
-  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   z-index: 20;
 }
-.alert-msg {
-  color: var(--blue-color);
-}
+
 .btn-close-alert,
 .btn-close-form {
+  color: var(--light-main-color);
   display: inline-block;
   position: absolute;
   top: 1rem;
