@@ -511,3 +511,17 @@ input.send-coins-to {
 .action-date {
   color: var(--blue-color);
 }
+
+/* @media (max-width: 900px) {
+  html {
+    font-size: 10px;
+  }
+} */
+/* @media (max-width: 600px) {
+  .game-display {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    opacity: 0;
+  }
+} */
