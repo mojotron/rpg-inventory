@@ -64,6 +64,8 @@ const GameEngin = function () {
     updateCharacterStats();
     updateCharacterInventory();
     updateCharacterEquipment();
+    if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
+      actionElements();
   };
 
   const loginCharacter = function (event) {
@@ -339,8 +341,6 @@ const GameEngin = function () {
     event.preventDefault();
     curChar.monsterHunt(Monster.generateMonster());
     updateCharacterUI();
-    if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
-      actionElements();
   };
 
   const newCharHandler = function () {

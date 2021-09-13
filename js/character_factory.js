@@ -131,7 +131,11 @@ const CharacterFactory = function (character, password) {
   const equipGear = function (spot) {
     const item = _inventory[spot];
     const free = _itemGearSlots(item);
-    if (!free) return;
+    if (!free) {
+      if (item.type === '2H') makeAlert('Both hands must be free!');
+      else makeAlert('Gear slot already taken!');
+      return;
+    } //TODO alerts
     if (item.type === 'head') addGear('head', removeItem(spot));
     if (item.type === 'body') addGear('body', removeItem(spot));
     if (item.type === 'legs') addGear('legs', removeItem(spot));
@@ -155,7 +159,10 @@ const CharacterFactory = function (character, password) {
 
   const removeGear = function (slot) {
     const item = _equipment[slot];
-
+    if (fullBag()) {
+      makeAlert('Inventory full!');
+      return;
+    }
     if (item.type === '2H') {
       _equipment.leftArm = null;
       _equipment.rightArm = null;
