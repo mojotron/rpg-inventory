@@ -33,7 +33,7 @@ const CharacterFactory = function (character, password) {
   //Character game log
   const _actions = [];
   const _addCoinsDisplay = function (value) {
-    const [gold, silver, copper] = copperToCoins(value);
+    const [gold, silver, copper] = GameUtilities.copperToCoins(value);
     return `${gold ? `🟡 ${gold} ` : ''} ${silver ? `⚪  ${silver} ` : ''}${
       copper ? `🟤  ${copper} ` : ''
     } `;
@@ -62,11 +62,11 @@ const CharacterFactory = function (character, password) {
   };
   const buyItem = function (item) {
     if (item.value > getCoins()) {
-      makeAlert('Not enough coins');
+      GameUtilities.makeAlert('Not enough coins');
       return;
     }
     if (fullBag()) {
-      makeAlert('Your bag is full');
+      GameUtilities.makeAlert('Your bag is full');
       return;
     }
     addItem(item); //item to inventory
@@ -123,6 +123,7 @@ const CharacterFactory = function (character, password) {
     if (item.type === '1H') return !getGear('leftArm') || !getGear('rightArm');
     if (item.type === '2H') return !getGear('leftArm') && !getGear('rightArm');
   };
+
   const addGear = function (slot, item) {
     _equipment[slot] = item;
     _addBonus(item);
@@ -160,7 +161,7 @@ const CharacterFactory = function (character, password) {
   const removeGear = function (slot) {
     const item = _equipment[slot];
     if (fullBag()) {
-      makeAlert('Inventory full!');
+      GameUtilities.makeAlert('Inventory full!');
       return;
     }
     if (item.type === '2H') {
@@ -190,11 +191,11 @@ const CharacterFactory = function (character, password) {
 
   const monsterHunt = function (monster) {
     if (getHP() === 1) {
-      makeAlert('To low HP for hunt!');
+      GameUtilities.makeAlert('To low HP for hunt!');
       return;
     }
     if (fullBag()) {
-      makeAlert('Inventory fool, sell some item first!');
+      GameUtilities.makeAlert('Inventory fool, sell some item first!');
       return;
     }
     if (getAttack() > monster.armor && getArmor() > monster.attack) {
@@ -208,7 +209,6 @@ const CharacterFactory = function (character, password) {
     }
     if (getAttack() >= monster.armor && getArmor() <= monster.attack) {
       const dmg = monster.attack - getArmor();
-      console.log(dmg);
       _hitPoints = _hitPoints - dmg > 1 ? _hitPoints - dmg : 1;
       if (getHP() > 1) {
         const loot = monster.getLoot();

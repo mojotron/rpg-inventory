@@ -38,7 +38,9 @@ const GameEngin = function () {
     document.querySelector('.character-attack').textContent =
       curChar.getAttack();
     document.querySelector('.character-armor').textContent = curChar.getArmor();
-    const [gold, silver, copper] = copperToCoins(curChar.getCoins());
+    const [gold, silver, copper] = GameUtilities.copperToCoins(
+      curChar.getCoins()
+    );
     document.querySelector('.currency-gold').textContent = gold;
     document.querySelector('.currency-silver').textContent = silver;
     document.querySelector('.currency-copper').textContent = copper;
@@ -67,24 +69,45 @@ const GameEngin = function () {
     if (document.querySelector('.btn-tab-active').dataset.tab === 'actions')
       actionElements();
   };
-
+  //HP REGENERATION
+  const startHPRegeneration = function (seconds, curChar) {
+    if (curChar.getHP() === curChar.getMaxHP()) return;
+    const tick = function (curChar) {
+      const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
+      const sec = `${time % 60}`.padStart(2, 0);
+      hpTimer.textContent = `${min}:${sec}`;
+      if (time === 0) {
+        clearInterval(timer);
+        curChar.heal();
+        updateCharacterUI();
+        if (curChar.getHP() < curChar.getMaxHP()) startHPRegeneration(seconds);
+      }
+      time--;
+    };
+    let time = seconds;
+    tick();
+    const timer = setInterval(tick, 1000);
+    return timer;
+  };
+  const restartRegeneration = function () {
+    if (hpRegeneration) clearInterval(hpRegeneration);
+    hpRegeneration = startHPRegeneration(120, curChar);
+  };
   const loginCharacter = function (event) {
     event.preventDefault();
     //If you try relog character , this stops resetting timer
     if (curChar?.getName() === loginCharName.value) {
-      clearInputs(loginCharName, loginCharPass);
+      GameUtilities.clearInputs(loginCharName, loginCharPass);
       return;
     }
     curChar = characters.find(char => char.getName() === loginCharName.value);
     if (!curChar) return;
     if (curChar?.getPassword() === loginCharPass.value) {
       updateCharacterUI();
+      restartRegeneration();
       gameApp.classList.remove('hidden');
-      actionElements();
-      if (hpRegeneration) clearInterval(hpRegeneration);
-      hpRegeneration = startHPRegeneration(120);
     }
-    clearInputs(loginCharName, loginCharPass);
+    GameUtilities.clearInputs(loginCharName, loginCharPass);
   };
 
   const shopItemElements = function () {
@@ -92,7 +115,7 @@ const GameEngin = function () {
     for (const [key, obj] of Object.entries(Armory.shop)) {
       const shopItem = document.createElement('div');
       shopItem.classList.add('item');
-      shopItem.innerHTML = shopItemHTML(obj, key);
+      shopItem.innerHTML = GameUtilities.shopItemHTML(obj, key);
       mainDisplay.insertAdjacentElement('beforeend', shopItem);
     }
   };
@@ -112,7 +135,7 @@ const GameEngin = function () {
       if (i % 2 === 0)
         newAction.style.background =
           'linear-gradient(90deg, rgb(195, 201, 200), #e89c77';
-      newAction.innerHTML = actionHTML(action, i);
+      newAction.innerHTML = GameUtilities.actionHTML(action, i);
       mainDisplay.insertAdjacentElement('afterbegin', newAction);
     });
   };
@@ -122,7 +145,7 @@ const GameEngin = function () {
     Monster.monsters.forEach(monster => {
       const newMonster = document.createElement('div');
       newMonster.classList.add('monster');
-      newMonster.innerHTML = monsterHtml(monster);
+      newMonster.innerHTML = GameUtilities.monsterHtml(monster);
       mainDisplay.insertAdjacentElement('beforeend', newMonster);
     });
   };
@@ -146,11 +169,11 @@ const GameEngin = function () {
     if (input.value === curChar.getName()) return;
     const targetChar = characters.find(char => char.getName() === input.value);
     if (!targetChar) {
-      makeAlert(`No character with name of ${input.value}`);
+      GameUtilities.makeAlert(`No character with name of ${input.value}`);
       return;
     }
     if (targetChar.fullBag()) {
-      makeAlert(`${targetChar.getName()} have full bag!`);
+      GameUtilities.makeAlert(`${targetChar.getName()} have full bag!`);
       return;
     }
     const item = curChar.removeItem(spot);
@@ -166,9 +189,8 @@ const GameEngin = function () {
 
   const invEquipBtnHandler = function (spot) {
     curChar.equipGear(spot);
+    restartRegeneration();
     removeBoxAndUpdateUI();
-    if (hpRegeneration) clearInterval(hpRegeneration);
-    hpRegeneration = startHPRegeneration(120);
   };
   //Equipment option box handler
   const gearSellBtnHandler = function (slot) {
@@ -181,11 +203,11 @@ const GameEngin = function () {
     if (input.value === curChar.getName()) return;
     const targetChar = characters.find(char => char.getName() === input.value);
     if (!targetChar) {
-      makeAlert(`No character with name of ${input.value}`);
+      GameUtilities.makeAlert(`No character with name of ${input.value}`);
       return;
     }
     if (targetChar.fullBag()) {
-      makeAlert(`${targetChar.getName()} have full bag!`);
+      GameUtilities.makeAlert(`${targetChar.getName()} have full bag!`);
       return;
     }
     const item = curChar.removeGear(slot);
@@ -228,7 +250,8 @@ const GameEngin = function () {
     //Create option box element to current mouse position
     const optionsBox = createOptionBox(event.clientX, event.clientY);
     optionsBox.innerHTML =
-      generalOptionBoxHTML(item) + inventoryOptionsBoxHtml(item);
+      GameUtilities.generalOptionBoxHTML(item) +
+      GameUtilities.inventoryOptionsBoxHtml(item);
     body.appendChild(optionsBox);
     //Add event listeners to dynamically created buttons on inventory item
     //Sell button
@@ -263,7 +286,8 @@ const GameEngin = function () {
     //Create option box element to current mouse position
     const optionsBox = createOptionBox(event.clientX, event.clientY);
     optionsBox.innerHTML =
-      generalOptionBoxHTML(item) + equipmentOptionsBoxHtml(item);
+      GameUtilities.generalOptionBoxHTML(item) +
+      GameUtilities.equipmentOptionsBoxHtml(item);
     body.appendChild(optionsBox);
     //Add event listeners to dynamically created buttons on gear item
     //Sell button
@@ -285,22 +309,27 @@ const GameEngin = function () {
 
   const sendCoinsHandler = function (event) {
     event.preventDefault();
-    const coins = coinsToCopper(
+    const coins = GameUtilities.coinsToCopper(
       +sendGoldValue.value,
       +sendSilverValue.value,
       +sendCopperValue.value
     );
     if (curChar.getCoins() < coins) {
-      makeAlert('Not enough coins');
+      GameUtilities.makeAlert('Not enough coins');
       return;
     }
     const targetChar = characters.find(char => char.getName() === sendTo.value);
     if (!targetChar) {
-      makeAlert('No such character');
+      GameUtilities.makeAlert('No such character');
       return;
     }
     curChar.sendCoins(coins, targetChar);
-    clearInputs(sendGoldValue, sendSilverValue, sendCopperValue, sendTo);
+    GameUtilities.clearInputs(
+      sendGoldValue,
+      sendSilverValue,
+      sendCopperValue,
+      sendTo
+    );
     updateCharacterUI();
   };
   //TABS
@@ -317,60 +346,46 @@ const GameEngin = function () {
     if (event.target.dataset.tab === 'shop') shopItemElements();
     if (event.target.dataset.tab === 'monsterpedia') monsterpediaElements();
   };
-  //HP REGENERATION
-  const startHPRegeneration = function (seconds) {
-    if (curChar.getHP() === curChar.getMaxHP()) return;
-    const tick = function () {
-      const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
-      const sec = `${time % 60}`.padStart(2, 0);
-      hpTimer.textContent = `${min}:${sec}`;
-      if (time === 0) {
-        clearInterval(timer);
-        curChar.heal();
-        updateCharacterUI();
-        if (curChar.getHP() < curChar.getMaxHP()) startHPRegeneration(seconds);
-      }
-      time--;
-    };
-    let time = seconds;
-    tick();
-    const timer = setInterval(tick, 1000);
-    return timer;
-  };
+
   const monsterHuntHandler = function (event) {
     event.preventDefault();
     curChar.monsterHunt(Monster.generateMonster());
+    if (!hpRegeneration) restartRegeneration();
     updateCharacterUI();
   };
 
   const newCharHandler = function () {
     overlay.classList.remove('hidden');
     createCharForm.classList.remove('hidden');
+    nameInput.focus();
   };
 
   const creatCharHandler = function (event) {
     event.preventDefault();
     if (characters.find(char => nameInput.value === char.getName())) {
-      makeAlert('Name taken');
+      GameUtilities.makeAlert('Name taken');
       return;
     }
     if (passwordInput.value !== confirmPasswordInput.value) {
-      makeAlert('Password and confirm password miss match');
+      GameUtilities.makeAlert('Password and confirm password miss match');
       return;
     }
     const newChar = CharacterFactory(nameInput.value, passwordInput.value);
     characters.push(newChar);
-    clearInputs(nameInput, passwordInput, confirmPasswordInput);
+    GameUtilities.clearInputs(nameInput, passwordInput, confirmPasswordInput);
     overlay.classList.add('hidden');
     createCharForm.classList.add('hidden');
     curChar = undefined;
+    if (hpRegeneration) clearInterval(hpRegeneration);
+    hpRegeneration = undefined;
+    hpTimer.textContent = '02:00';
     gameApp.classList.add('hidden');
   };
 
   const closeFormHandler = function () {
     overlay.classList.add('hidden');
     createCharForm.classList.add('hidden');
-    clearInputs(nameInput, passwordInput, confirmPasswordInput);
+    GameUtilities.clearInputs(nameInput, passwordInput, confirmPasswordInput);
   };
 
   const init = function () {
@@ -387,7 +402,7 @@ const GameEngin = function () {
     closeFormBtn.addEventListener('click', closeFormHandler);
     document
       .querySelector('.btn-close-alert')
-      .addEventListener('click', closeAlert);
+      .addEventListener('click', GameUtilities.closeAlert);
   };
   init();
 };

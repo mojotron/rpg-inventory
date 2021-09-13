@@ -290,7 +290,8 @@ nav {
   font-size: 1.3rem;
   padding: 0.2rem 0;
 }
-.transfer-item {
+
+.character .transfer-item {
   border-bottom: 2px solid var(--light-main-color);
 }
 .btn-character-option:hover {
@@ -307,6 +308,11 @@ nav {
   padding: 0.5rem 1rem;
   font-size: 1.1rem;
   border-radius: 3px;
+}
+.character-target-name {
+  text-align: center;
+  font-family: inherit;
+  font-size: 1.5rem;
 }
 
 .options-box input::placeholder {
