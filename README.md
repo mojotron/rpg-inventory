@@ -56,10 +56,9 @@ In addition to these characters, you can create a new one which starts with basi
     | Player that has greater attack and armor wins without getting any damage.                                                      |
     | Player whose attack is greater but armor is less then monster's wins but gets hit by monster attack - player armor difference. |
     | Player whose attack is less but armor is grater doesn't win loot and gets damage equal to half of players hit points           |
+    | Monster that has greater attack and armor then player damages the player to one hit point.                                     |
 
-    |Monster that has greater attack and armor then player damages the player to one hit point.
-
-    **NOTE**: When player has 1 hit point, you can't go to monster hunt. Before next round, you must consume food or wait for hit points to regenerate.|
+    **NOTE**: When player has 1 hit point, you can't go to monster hunt. Before next round, you must consume food or wait for hit points to regenerate.
 
 ## What have I learned?
 
