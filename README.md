@@ -1,72 +1,87 @@
 # RPG-Inventory
 
-This project is inspired by awesome tutorial Complete Javascript Course by Jonas Schmedtmann and his version of Pig game. To challenge myself, instead of recreating whole project, i added a twist with 20 sided die and couple of more rules in game logic. Here is reference to original pig game. Goal of this project is reinforce my knowledge at the current learning path. I tried to use all tricks I learned in my other projects, to nail them down in brain.
+Explore Rpg-inventory project [here](https://mojotron.github.io/rpg-inventory/index.html), via github pages.
 
-Goal of this project was to implement all my learning with little bit defcual project. Idea for d this project is result from going through Jonas S tutoraial.
-There is used for learning bankist app. I didnt want to copy whole project but to make it with a liitle twist.
-For best user experience please use this application on desktop browser.
+**NOTE:** _For best user experience please use this application on desktop browser._
+
+This project is inspired by a project from awesome tutorial [Complete Javascript Course](https://www.udemy.com/course/the-complete-javascript-course/) by Jonas Schmedtmann. I wanted to create something like [Bankist App Demo](https://bankist.netlify.app/)(user: js password: 1111) that is build in the tutorial, but not copying project.
+
+Instead I made an imitation of RPG games character inventory management system with all common RPG game actions like buying or selling items, equipping gear and interacting with other players by sending them items or gold.
+
+The goal of this project was to reinforce my knowledge, challenge myself with building projects that are not simple, forcing me to overcome difficulties and learn along the path.
 
 ## How To Play?
 
-There are three pre-made characters to use (username/password):
+To start playing and exploring this project, simply login with a pre-made character or create a new one.
+There are three pre-made characters to use, each with different gear to test game features, explore and have fun:
 
-1. Stomp / 111
-2. Draw / 222
-3. Slick / 333
+| character name | password |
+| -------------- | :------: |
+| Stomp          |   111    |
+| Draw           |   222    |
+| Slick          |   333    |
 
-Every pre-made character have have different gear to test game features, explore and have fun!
+In addition to these characters, you can create a new one which starts with basic gear and two gold coins.
 
-In addition to these character you can create new one which starts with basic gear and some coins. This application doesn't have option for saving character progress. Character object is too complex for localStorage API.
+**NOTE**: _This application doesn't have option for saving characters progress at this point. All progress will be lost between page reloads._
 
-Note: to inspect items in inventory or gear sections double click on item to open options box with information about item.
+**NOTE**: to inspect items in inventory or gear sections **double click on item** to open options box with information about item, and action options.
 
-## Game features:
+## Game features
 
-1. Buying items form shop tab - In the shop tab, basic items are listed. To buy an item simply press buy item button.
+1. Buying items - in the shop tab basic items are listed. To buy an item simply press buy item button.
 
-2. Selling item - double click on item and then sell button to sell item and get coins.
+**NOTE**: Shop contains most of the common items, not ALL. To get better gear there is Monster Hunt mini game which contains more items. The more rare a monster is, better gear can be obtained. There are common, rare, very and ultra rare items.
 
-3. Equip and remove item - to equip item from inventory double click on item and then equip. Gear slot item must be empty (removed) before item can be equipped. Two hand items requires boat hands free. To remove item from gear double click on item in gear section and than remove button. There must be empty spot in inventory.
+2. Selling items - user can sell an item at any point (no need to activate shop tab) from inventory or gear section.
 
-4. Consume food - to regain health points consume food item by double click on item and then consume button.
+3. Equip and remove item - to equip an item from inventory, inspect it and click equip. Gear slot must be empty (removed) before an item can be equipped. Two hand items requires both hands free. To remove an item from gear, open item in gear section and than remove button. To remove an item, there must be empty space in inventory.
 
-5. Send item to other character - sending item to other character is double click on item and then type character name in inputs field and then click send button. If character have full inventory or you type wrong name you will get friendly alert message.
-6. Health point regeneration - in the bottom left corner there is timer with heart. If character is missing any health point timer will start and regenerate 1 health point each 2 minutes.
+4. Consume food - to regain health points consume food item by double clicking on it and then consume button.
+
+5. Send item to other character - to send an item to another character, double click on it, type character name in input field and then click send button. If the other character has a full inventory or if you type wrong name, you will get friendly alert message.
+
+6. Health point regeneration - in the bottom left corner there is a timer with heart. If a character is missing any health points, timer will start and regenerate 1 health point each 2 minutes.
 
 7. Send coins to other character - next to the hit point regeneration counter is send coins form. With this form you can send some amount of coins to a friend character.
 
-8. Inspect actions in action tab - every action you make in game is recorded and displayed in action tab.
+8. Inspect actions in action tab - every action you make in the game is recorded and displayed in the action tab.
 
-9. Learn about monsters form monster tab - to learn all about possible monsters in Monster Hunt mini game navigate to Monsterpedia tab and read all information for each monster including possible loot drop.
+9. Learn about monsters form monster tab - to learn all about possible monsters in Monster Hunt mini game, navigate to Monsterpedia tab and read all information for each monster including possible loot drop.
 
-10. Go to Monster hunt
-    Monster hunt is simple mini game, with purpose of getting character new gear and making game economy. There was only sending gear or coins between character prior.
-    Game logic fallow these rules, compare players attack with monsters armor and players armor with monsters attack.
+10. Monster hunt is a simple mini game, with the purpose of getting better gear than there is in the shop. Also, to add game economy, so that player can obtain coins by going to Monster hunt and sell items. Before, there was only sending gear or coins between character. Game logic follows four rules, based on comparison of player's attack with monster's armor and player's armor with monster's attack.
 
-- player have greater attack and armor wins without getting any dmg
-- attack is greater but armor is less then monsters players wing but gets hit by attack/armor difference
-- attack is less but armor is grater, no loot but player gets dmg of half hp
-- monster has greater attack and armor - puts player to one hp
-  When player has 1 hp cant go to monster hunt, must consume food or wait for hp regeneration timer.
+    | Monster Hunt combat rules                                                                                                      |
+    | ------------------------------------------------------------------------------------------------------------------------------ |
+    | Player that has greater attack and armor wins without getting any damage.                                                      |
+    | Player whose attack is greater but armor is less then monster's wins but gets hit by monster attack - player armor difference. |
+    | Player whose attack is less but armor is grater doesn't win loot and gets damage equal to half of players hit points           |
+
+    |Monster that has greater attack and armor then player damages the player to one hit point.
+
+    **NOTE**: When player has 1 hit point, you can't go to monster hunt. Before next round, you must consume food or wait for hit points to regenerate.|
 
 ## What have I learned?
 
 - Creating DOM elements at mouse click position using MouseEvent.clientX and MouseEvent.clientY properties.
 - Event delegation with event capturing and bubbling.
 - Matching strategy for event delegation pattens.
-- Timinig events - creating, clearing, calling.
-- Tick function to start timer imidiatly not after 1 second.
-- Intenatonalization API.
-- Encapsulation -
-- Enncapsulation of event listeners creating init function.
+- Timing events - creating, clearing, calling.
+- Tick function to start timer immediately not after 1 second.
+- Intl API - making action tab to display word today when action is made in past 24 hours, number of day (in format 1 day ago) when action is made past week or date string in format based on user location (formatting depends user county standards).
+- Encapsulation - using factory functions for object creation. Placing code in module pattern saving global scope of namespace pollution.
+- Encapsulation of event listeners creating init function, making all event listers in one place making code more readable.
 - Css transition effects.
-- Difficulties of implementig game logic - interaction between different game object. Importance of good planning and dividing task.
-- Balancing game - making natural curve of caracter progresin through game.
+- Difficulties of implementing game logic - interaction between different game object. Importance of good planning and dividing task. How hard is to make a balanced game, making user progress enjoyable but not too easy or too hard.
 
 ## Biggest roadblocks?
 
-By far biggest problem was creating item object.
-Encapsulate facories.
-Local Storage.
-Coin function.
-Balancig caharacter, item and monster.
+By far the biggest problem was creating an item object that is easy to use in character and monster object.
+Making coins works in whole code base. Here I was overthinking trying to work with gold, silver and coppers independently. The solution was to make helper functions that transform coin value to gold/silver/cooper for display purposes.
+Encapsulate factory functions - I wanted this project without global variables.
+
+## TO DO Features
+
+Refactor character factory function - making prototype object for character and move most of logic there. Then using Object.create to make prototypal inheritance between these objects. Goal of this refactor is to simplify character object to implement localStorage API for saving users progress.
+
+Style up page and make responsive.
