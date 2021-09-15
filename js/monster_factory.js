@@ -85,7 +85,7 @@ const Monster = (function () {
       Armory.shop.dagger,
       Armory.shop.head2,
       Armory.shop.body2,
-      Armory.shop.legs3,
+      Armory.shop.legs2,
       Armory.shop.mace,
       Armory.shop.potion,
       Armory.shop.sword,

@@ -9,6 +9,8 @@ html {
   font-size: 16px;
   box-sizing: border-box;
   user-select: none;
+  height: 100vh;
+  width: 100vw;
 }
 body {
   font-family: 'Saira Condensed', sans-serif;
@@ -19,14 +21,18 @@ body {
 nav {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  align-items: baseline;
+  padding: 1rem 1rem;
 }
 .welcome-msg,
 .game-icon {
   font-size: 2.5rem;
+  min-width: 15rem;
 }
 .welcome-msg {
   font-family: 'Caesar Dressing', sans-serif;
+  position: relative;
+  top: 5px;
 }
 /*form inputs*/
 .login-input,
@@ -42,12 +48,13 @@ nav {
 }
 .new-char-btn {
   height: 2.5rem;
+  min-width: 8rem;
   z-index: 5;
-  position: relative;
-  top: 9px;
   font-family: 'Caesar Dressing', sans-serif;
 }
-
+.login {
+  min-width: 15rem;
+}
 .login-input:focus {
   outline: none;
 }
@@ -68,9 +75,8 @@ nav {
   box-sizing: border-box;
   background-color: var(--light-main-color);
   color: var(--dark-main-color);
-  /* font-family: 'Tulpen One'; TODO */
   height: 85vh;
-  margin: 0 auto;
+  width: 100%;
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: 0.25fr repeat(4, 1fr) 0.25fr;
@@ -323,9 +329,9 @@ nav {
 /* send coins */
 .game-info-display label {
   color: var(--dark-main-color);
-  font-size: 1.5rem;
-  position: relative;
-  top: 3px;
+  font-size: 1.2rem;
+  /* position: relative;
+  top: 3px; */
   font-family: 'Caesar Dressing', sans-serif;
 }
 .send-coins {
@@ -339,7 +345,7 @@ nav {
   color: var(--dark-main-color);
   border-radius: 10px;
   width: 4rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   padding: 0.1rem 0.2rem;
   text-align: center;
 }
@@ -359,15 +365,18 @@ input.send-coins-to {
   top: 5px;
 }
 .login-btn:hover,
-.btn-send-coins:hover {
+.btn-send-coins:hover .login-btn:active,
+.btn-send-coins:active {
   color: var(--blue-color);
 }
-.name-me {
+.send-coins-label {
   color: var(--light-main-color);
 }
 .hp-regeneration {
   color: var(--dark-main-color);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  position: relative;
+  bottom: 4px;
   padding-left: 1rem;
   font-family: 'Caesar Dressing', sans-serif;
 }
@@ -382,11 +391,13 @@ input.send-coins-to {
   padding: 1rem;
   color: var(--dark-main-color);
 }
-.monster-loot {
-  border: 1px solid var(--dark-main-color);
+.monster-info p {
+  padding: 0.3rem 0;
 }
 .loot-item {
+  border-top: 0.1rem solid var(--light-main-color);
   display: flex;
+  padding: 0.3rem 1rem;
 }
 /* form char */
 .hidden {
@@ -428,6 +439,9 @@ input.send-coins-to {
   border-radius: 3px;
   color: var(--dark-main-color);
 }
+.create-input:focus {
+  outline: none;
+}
 .btn-create-char {
   margin: 0 auto;
   width: 7rem;
@@ -441,6 +455,7 @@ input.send-coins-to {
   transition: background-color 1s;
   cursor: pointer;
 }
+.new-char-btn:hover,
 .btn-create-char:hover {
   background-color: var(--blue-color);
   color: var(--light-main-color);
@@ -494,9 +509,7 @@ input.send-coins-to {
   font-family: inherit;
   font-size: 1.2rem;
   font-weight: 800;
-  position: relative;
   border-radius: 10px;
-  left: 10rem;
   padding: 0.3rem 1.3rem;
   background: linear-gradient(90deg, var(--blue-color), var(--dark-main-color));
   color: var(--light-main-color);
@@ -518,16 +531,22 @@ input.send-coins-to {
   color: var(--blue-color);
 }
 
-/* @media (max-width: 900px) {
+@media (max-width: 1050px) {
   html {
     font-size: 10px;
   }
-} */
-/* @media (max-width: 600px) {
-  .game-display {
-    display: flex;
-    flex-direction: column;
-    background-color: black;
+}
+@media (max-width: 650px) {
+  html {
+    font-size: 8px;
+  }
+  html:before {
+    content: 'Try flipping phone to the side or use bigger screen size!';
+    color: var(--light-main-color);
+    font-size: 1.5rem;
+  }
+  main,
+  nav {
     opacity: 0;
   }
-} */
+}

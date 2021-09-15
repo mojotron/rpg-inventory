@@ -82,5 +82,3 @@ Encapsulate factory functions - I wanted this project without global variables.
 ## TO DO Features
 
 Refactor character factory function - making prototype object for character and move most of logic there. Then using Object.create to make prototypal inheritance between these objects. Goal of this refactor is to simplify character object to implement localStorage API for saving users progress.
-
-Style up page and make responsive.

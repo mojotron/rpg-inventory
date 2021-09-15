@@ -70,9 +70,9 @@ const GameEngin = function () {
       actionElements();
   };
   //HP REGENERATION
-  const startHPRegeneration = function (seconds, curChar) {
+  const startHPRegeneration = function (seconds) {
     if (curChar.getHP() === curChar.getMaxHP()) return;
-    const tick = function (curChar) {
+    const tick = function () {
       const min = `${Math.trunc(time / 60)}`.padStart(2, 0);
       const sec = `${time % 60}`.padStart(2, 0);
       hpTimer.textContent = `${min}:${sec}`;
@@ -91,7 +91,7 @@ const GameEngin = function () {
   };
   const restartRegeneration = function () {
     if (hpRegeneration) clearInterval(hpRegeneration);
-    hpRegeneration = startHPRegeneration(120, curChar);
+    hpRegeneration = startHPRegeneration(10);
   };
   const loginCharacter = function (event) {
     event.preventDefault();
@@ -350,7 +350,7 @@ const GameEngin = function () {
   const monsterHuntHandler = function (event) {
     event.preventDefault();
     curChar.monsterHunt(Monster.generateMonster());
-    if (!hpRegeneration) restartRegeneration();
+    restartRegeneration();
     updateCharacterUI();
   };
 
@@ -375,10 +375,10 @@ const GameEngin = function () {
     GameUtilities.clearInputs(nameInput, passwordInput, confirmPasswordInput);
     overlay.classList.add('hidden');
     createCharForm.classList.add('hidden');
-    curChar = undefined;
     if (hpRegeneration) clearInterval(hpRegeneration);
-    hpRegeneration = undefined;
+    // hpRegeneration = undefined;
     hpTimer.textContent = '02:00';
+    curChar = undefined;
     gameApp.classList.add('hidden');
   };
 
