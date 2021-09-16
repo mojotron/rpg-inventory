@@ -133,8 +133,9 @@ const CharacterFactory = function (character, password) {
     const item = _inventory[spot];
     const free = _itemGearSlots(item);
     if (!free) {
-      if (item.type === '2H') makeAlert('Both hands must be free!');
-      else makeAlert('Gear slot already taken!');
+      if (item.type === '2H')
+        GameUtilities.makeAlert('Both hands must be free!');
+      else GameUtilities.makeAlert('Gear slot already taken!');
       return;
     } //TODO alerts
     if (item.type === 'head') addGear('head', removeItem(spot));

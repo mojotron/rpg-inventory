@@ -91,7 +91,7 @@ const GameEngin = function () {
   };
   const restartRegeneration = function () {
     if (hpRegeneration) clearInterval(hpRegeneration);
-    hpRegeneration = startHPRegeneration(10);
+    hpRegeneration = startHPRegeneration(120);
   };
   const loginCharacter = function (event) {
     event.preventDefault();
